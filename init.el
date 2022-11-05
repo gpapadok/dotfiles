@@ -7,9 +7,15 @@
 ;; Download evil
 ;; (unless (package-installed-p 'evil)
 ;;   (package-install 'evil))
-;; 
+
+;; (setq evil-want-C-u-scroll t)
 ;; (require 'evil)
 ;; (evil-mode 1)
+
+(column-number-mode 1)
+(line-number-mode 1)
+(display-line-numbers-mode 1)
+(setq display-line-numbers-type 'relative)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
