@@ -15,11 +15,6 @@
 (require 'slime-cl-indent)
 (add-to-list 'slime-contribs 'slime-indentation)
 
-(require 'lsp-mode)
-(add-hook 'haskell-mode-hook #'lsp)
-(add-hook 'haskell-literate-mode-hook #'lsp)
-
-;; (setq elm-mode-hook '(elm-indent-simple-mode))
 (elpy-enable)
 (setq elpy-rpc-python-command "python3")
 
@@ -38,7 +33,6 @@
 (setq-default truncate-lines 1)
 (setq js-indent-level 2)
 (setq sql-indent-level 4)
-(setq elm-indent-offset 2)
 
 ;; (setq tab-always-indent 'complete)
 
