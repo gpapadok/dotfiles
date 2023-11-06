@@ -15,7 +15,7 @@
 	deadgrep
 	counsel
 	ivy
-	;; helm
+	helm
 	avy
 	dockerfile-mode
 	lsp-ui
@@ -30,9 +30,11 @@
 	;; cyberpunk-theme
 	))
 
-(dolist (p packages)
-  (unless (package-installed-p p)
-    (package-install p)))
+(unless (seq-every-p #'package-installed-p package-list)
+  (package-refresh-contents)
+  (dolist (p packages)
+    (unless (package-installed-p p)
+      (package-install p))))
 
 ;; mint from git
 ;; (add-to-list 'load-path "/home/gpapadok/.emacs.d/github/emacs-mint-mode")
