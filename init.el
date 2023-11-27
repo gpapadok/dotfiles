@@ -28,6 +28,8 @@
 	slime
 	rainbow-delimiters
 	;; cyberpunk-theme
+	use-package
+	company
 	))
 
 (unless (seq-every-p #'package-installed-p package-list)
@@ -40,18 +42,41 @@
 ;; (add-to-list 'load-path "/home/gpapadok/.emacs.d/github/emacs-mint-mode")
 ;; (load "mint-mode")
 
-;;; SLIME
-(load (expand-file-name "~/quicklisp/slime-helper.el"))
-(setq inferior-lisp-program "sbcl")
-(require 'slime-cl-indent)
-(add-to-list 'slime-contribs 'slime-indentation)
+(use-package slime
+  :bind (("C-c C-v C-v" . slime-eval-buffer))
+  :init
+  (setq inferior-lisp-program "sbcl")
+  (load (expand-file-name "~/quicklisp/slime-helper.el"))
+  (add-to-list 'slime-contribs 'slime-indentation)
+  :config
+  (require 'slime-cl-indent)
+  (put 'define-package 'common-lisp-indent-function '(as defpackage))
+  (put 'defroutes 'common-lisp-indent-function '(as defparameter))
+  :hook (lisp-mode . rainbow-delimiters-mode))
 
-;;; PYTHON
-(elpy-enable)
-(setq elpy-rpc-python-command "python3")
+(use-package elpy
+  :init
+  (setq elpy-rpc-python-command "python3"))
+
+(use-package php-mode
+  :hook (php-mode . (lambda ()
+		      (auto-complete-mode 1)
+		      (ac-php-core-eldoc-setup)
+		      (c-set-offset 'case-label 4)
+		      (define-key php-mode-map (kbd "M-.")
+			'ac-php-find-symbol-at-point)
+		      (define-key php-mode-map (kbd "M-,")
+			'ac-php-location-stack-back))))
+
+(use-package ivy
+  :bind (("<f-6>" . ivy-resume)
+	 ("C-c g" . counsel-git)
+	 ("C-c j" . 'counsel-git-grep))
+  :init
+  (counsel-mode 1)
+  (setq ivy-use-virtual-buffers 1))
 
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (menu-bar-mode 0)
@@ -73,7 +98,6 @@
 ;; 			  (setq-local tab-width 4)))
 
 
-(setq js-indent-level 2)
 (setq sql-indent-level 4)
 
 (load-theme 'timu-macos t)
@@ -129,13 +153,17 @@
   (yank)
   (kill-sexp))
 
+(defun load-config ()
+  (interactive)
+  (find-file user-init-file))
+
 (global-set-key (kbd "C-x M-k") 'kill-surrounding-sexp)
 (global-set-key (kbd "C-x M-w") 'yank-surrounding-sexp)
 (global-set-key (kbd "C-x C-j") 'insert-line-below)
 (global-set-key (kbd "C-x M-j") 'insert-line)
 (global-set-key (kbd "C-x C-k") 'just-one-space-line)
 (global-set-key (kbd "C-x C-y") 'replace-sexp)
+(global-set-key (kbd "C-x M-;") 'comment-surrounding-sexp)
 ;;
-(global-set-key (kbd "C-c C-v C-v") 'slime-eval-buffer)
 (global-set-key (kbd "M-P") 'avy-goto-char)
 (global-set-key (kbd "C-s") 'swiper)
