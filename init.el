@@ -6,11 +6,9 @@
 (package-initialize)
 
 (setq packages
-      '(ac-php
-	timu-macos-theme
+      '(timu-macos-theme
 	yaml-mode
 	web-mode
-	php-mode
 	mint-mode
 	deadgrep
 	counsel
@@ -57,16 +55,6 @@
 (use-package elpy
   :init
   (setq elpy-rpc-python-command "python3"))
-
-(use-package php-mode
-  :hook (php-mode . (lambda ()
-		      (auto-complete-mode 1)
-		      (ac-php-core-eldoc-setup)
-		      (c-set-offset 'case-label 4)
-		      (define-key php-mode-map (kbd "M-.")
-			'ac-php-find-symbol-at-point)
-		      (define-key php-mode-map (kbd "M-,")
-			'ac-php-location-stack-back))))
 
 (use-package ivy
   :bind (("<f-6>" . ivy-resume)
