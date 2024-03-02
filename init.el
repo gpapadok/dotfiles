@@ -5,43 +5,50 @@
 	     '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
 (package-initialize)
 
-(setq packages
-      '(timu-macos-theme
-	yaml-mode
-	web-mode
-	mint-mode
-	deadgrep
-	counsel
-	ivy
-	helm
-	avy
-	dockerfile-mode
-	lsp-ui
-	lsp-mode
-	eglot
-	;; elpy
-	magit
-	;; python-mode
-	go-mode
-	slime
-	rainbow-delimiters
-	;; cyberpunk-theme
-	use-package
-	company
-	))
+;; straight.el
+(defvar bootstrap-version)
+(let ((bootstrap-file (expand-file-name
+		       "straight/repos/straight.el/bootstrap.el"
+		       (or (bound-and-true-p straight-base-dir)
+			   user-emacs-directory)))
+      (bootstrap-version 7))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+	(url-retrieve-synchronously
+	 "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+	 'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+(straight-use-package 'use-package)
 
-(unless (seq-every-p #'package-installed-p package-list)
-  (package-refresh-contents)
-  (dolist (p packages)
-    (unless (package-installed-p p)
-      (package-install p))))
+(use-package timu-macos-theme :straight t
+  :init (load-theme 'timu-macos t))
 
-;; mint from git
-;; (add-to-list 'load-path "/home/gpapadok/.emacs.d/github/emacs-mint-mode")
-;; (load "mint-mode")
+(use-package yaml-mode :straight t)
+(use-package deadgrep :straight t)
+(use-package avy :straight t
+  :bind (("M-P" . avy-goto-char)))
 
-(use-package slime
-  :bind (("C-c C-v C-v" . slime-eval-buffer))
+(use-package dockerfile-mode :straight t)
+(use-package eglot :straight t)
+(use-package magit :straight t)
+(use-package counsel :straight t)
+(use-package rainbow-delimiters :straight t)
+(use-package company :straight t)
+
+(use-package ivy :straight t
+  :bind (("<f-6>" . ivy-resume)
+	 ;; ("
+	 ("C-c g" . counsel-git)
+	 ("C-c j" . counsel-git-grep)
+	 ("C-x b" . counsel-switch-buffer))
+  :init
+  (counsel-mode 1)
+  (setq ivy-use-virtual-buffers 1))
+
+(use-package slime :straight t
+  :bind (("C-c b" . slime-eval-buffer))
   :init
   (setq inferior-lisp-program "sbcl")
   (load (expand-file-name "~/quicklisp/slime-helper.el"))
@@ -50,108 +57,57 @@
   (require 'slime-cl-indent)
   (put 'define-package 'common-lisp-indent-function '(as defpackage))
   (put 'defroutes 'common-lisp-indent-function '(as defparameter))
-  :hook (lisp-mode . rainbow-delimiters-mode))
+  :hook
+  (lisp-mode . rainbow-delimiters-mode)
+  ;; (slime-mode . (lambda ()
+  ;; 		  (unless (slime-connected-p)
+  ;; 		    (save-excursion (slime)))))
+  )
 
-(use-package elpy
-  :init
-  (setq elpy-rpc-python-command "python3"))
+;; (require 'vim-binds-mode)
 
-(use-package ivy
-  :bind (("<f-6>" . ivy-resume)
-	 ("C-c g" . counsel-git)
-	 ("C-c j" . 'counsel-git-grep))
-  :init
-  (counsel-mode 1)
-  (setq ivy-use-virtual-buffers 1))
+;; (use-package vim-binds-mode
+;;   :straight (vim-binds-mode
+;; 	     :fetcher github :repo "gpapadok/vim-binds-mode"))
 
-(add-hook 'prog-mode-hook 'display-line-numbers-mode)
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(use-package lass :ensure nil
+  :load-path "/home/gpapadok/quicklisp/dists/quicklisp/software/lass-20230214-git")
 
-(menu-bar-mode 0)
-(show-paren-mode 1)
-(column-number-mode 1)
-(line-number-mode 1)
-(display-line-numbers-mode 1)
-(ivy-mode 1)
-(counsel-mode 1)
-(company-mode 1)
+(use-package clojure-mode :straight t)
+(use-package cider :straight t)
 
-(setq-default truncate-lines 1)
-(setq tab-always-indent 'complete)
+(use-package flymake-kondor :straight t
+  :hook (clojure-mode . flymake-kondor-setup)
+  :bind (("M-n" . flymake-goto-next-error)
+	 ("M-p" . flymake-goto-prev-error)))
 
-(add-hook 'web-mode-hook (lambda ()
-			   (setq-local standard-indent 2)))
+(defun init ()
+  (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-;; (add-hook 'go-mode-hook (lambda ()
-;; 			  (setq-local tab-width 4)))
+  (menu-bar-mode 0)
+  (show-paren-mode 1)
+  (column-number-mode 1)
+  (line-number-mode 1)
+  ;; (display-line-numbers-mode 1)
+  ;; (ivy-mode 1)
+  ;; (company-mode 1)
+  ;; (vim-binds-mode 1)
 
+  (setq-default truncate-lines 1)
+  (setq tab-always-indent 'complete)
+  (setq sql-indent-level 4)
 
-(setq sql-indent-level 4)
+  (keymap-global-set "M-P" 'avy-goto-char)
+  (keymap-global-set "C-s" 'swiper)
+  (keymap-global-set "C-c RET" 'emacs-lisp-macroexpand))
 
-(load-theme 'timu-macos t)
-
-(defun op-surrounding-sexp (op)
-  "Perform operation on sexp surrounding point."
-  (let ((start (point)))
-    (when (not (char-equal (char-after (point)) ?\())
-      (condition-case nil
-	  (backward-up-list)
-	(error nil)))
-    (let ((opoint (point)))
-      (forward-sexp 1)
-      (funcall op opoint (point))
-      (goto-char start))))
-
-(defun kill-surrounding-sexp ()
-  "Delete the sexp surrounding point"
-  (interactive)
-  (op-surrounding-sexp #'kill-region))
-
-(defun yank-surrounding-sexp ()
-  "Yank the sexp surrounding point"
-  (interactive)
-  (op-surrounding-sexp #'kill-ring-save))
-
-(defun comment-surrounding-sexp ()
-  "Comment the sexp surrounding point"
-  (interactive)
-  (op-surrounding-sexp #'comment-region))
-
-(defun insert-line-below ()
-  "Same as hitting enter at end of line"
-  (interactive)
-  (move-end-of-line nil)
-  (newline-and-indent))
-
-(defun insert-line ()
-  "Inserts an indented line at the same line as point"
-  (interactive)
-  (back-to-indentation)
-  (newline-and-indent)
-  (previous-line)
-  (indent-for-tab-command))
-
-(defun just-one-space-line ()
-  (interactive)
-  (kill-line)
-  (just-one-space))
-
-(defun replace-sexp ()
-  (interactive)
-  (yank)
-  (kill-sexp))
+(init)
 
 (defun load-config ()
   (interactive)
   (find-file user-init-file))
 
-(global-set-key (kbd "C-x M-k") 'kill-surrounding-sexp)
-(global-set-key (kbd "C-x M-w") 'yank-surrounding-sexp)
-(global-set-key (kbd "C-x C-j") 'insert-line-below)
-(global-set-key (kbd "C-x M-j") 'insert-line)
-(global-set-key (kbd "C-x C-k") 'just-one-space-line)
-(global-set-key (kbd "C-x C-y") 'replace-sexp)
-(global-set-key (kbd "C-x M-;") 'comment-surrounding-sexp)
-;;
-(global-set-key (kbd "M-P") 'avy-goto-char)
-(global-set-key (kbd "C-s") 'swiper)
+(defun project-helm-find ()
+  (interactive "P")
+  (helm-find-1 (project-root (project-current))))
