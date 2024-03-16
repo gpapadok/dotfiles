@@ -37,15 +37,11 @@
 (use-package rainbow-delimiters :straight t)
 (use-package company :straight t)
 
-(use-package ivy :straight t
-  :bind (("<f-6>" . ivy-resume)
-	 ;; ("
-	 ("C-c g" . counsel-git)
-	 ("C-c j" . counsel-git-grep)
-	 ("C-x b" . counsel-switch-buffer))
+(use-package vertico :straight t
   :init
-  (counsel-mode 1)
-  (setq ivy-use-virtual-buffers 1))
+  (vertico-mode))
+
+(use-package go-mode :straight t)
 
 (use-package slime :straight t
   :bind (("C-c b" . slime-eval-buffer))
@@ -64,11 +60,12 @@
   ;; 		    (save-excursion (slime)))))
   )
 
-;; (require 'vim-binds-mode)
-
-;; (use-package vim-binds-mode
-;;   :straight (vim-binds-mode
-;; 	     :fetcher github :repo "gpapadok/vim-binds-mode"))
+(use-package vim-binds-mode
+  :straight (vim-binds-mode
+	     :host github
+	     :repo "gpapadok/vim-binds-mode"
+	     :branch "master"
+	     :files (:defaults "vim-binds-mode.el")))
 
 (use-package lass :ensure nil
   :load-path "/home/gpapadok/quicklisp/dists/quicklisp/software/lass-20230214-git")
@@ -89,8 +86,6 @@
   (show-paren-mode 1)
   (column-number-mode 1)
   (line-number-mode 1)
-  ;; (display-line-numbers-mode 1)
-  ;; (ivy-mode 1)
   ;; (company-mode 1)
   ;; (vim-binds-mode 1)
 
@@ -99,7 +94,6 @@
   (setq sql-indent-level 4)
 
   (keymap-global-set "M-P" 'avy-goto-char)
-  (keymap-global-set "C-s" 'swiper)
   (keymap-global-set "C-c RET" 'emacs-lisp-macroexpand))
 
 (init)
