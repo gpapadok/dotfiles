@@ -1,11 +1,3 @@
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa-stable" . "http://stable.melpa.org/packages/"))
-(add-to-list 'package-archives
-	     '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
-(package-initialize)
-
-;; straight.el
 (defvar bootstrap-version)
 (let ((bootstrap-file (expand-file-name
 		       "straight/repos/straight.el/bootstrap.el"
