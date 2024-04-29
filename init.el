@@ -21,6 +21,8 @@
 (use-package deadgrep :straight t)
 (use-package avy :straight t
   :bind (("M-P" . avy-goto-char)))
+(use-package expand-region :straight t
+  :bind (("M-O" . er/expand-region)))
 
 (use-package dockerfile-mode :straight t)
 (use-package eglot :straight t)
