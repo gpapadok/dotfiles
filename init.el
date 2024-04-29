@@ -35,8 +35,6 @@
   :init
   (vertico-mode))
 
-(use-package go-mode :straight t)
-
 (use-package slime :straight t
   :bind (("C-c b" . slime-eval-buffer))
   :init
@@ -53,13 +51,6 @@
   ;; 		  (unless (slime-connected-p)
   ;; 		    (save-excursion (slime)))))
   )
-
-(use-package vim-binds-mode
-  :straight (vim-binds-mode
-	     :host github
-	     :repo "gpapadok/vim-binds-mode"
-	     :branch "master"
-	     :files (:defaults "vim-binds-mode.el")))
 
 (use-package lass :ensure nil
   :load-path "/home/gpapadok/quicklisp/dists/quicklisp/software/lass-20230214-git")
