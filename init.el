@@ -14,29 +14,39 @@
   (load bootstrap-file nil 'nomessage))
 (straight-use-package 'use-package)
 
-(use-package timu-macos-theme :straight t
+(use-package timu-macos-theme
+  :straight t
   :init (load-theme 'timu-macos t))
 
-(use-package yaml-mode :straight t)
-(use-package deadgrep :straight t)
-(use-package avy :straight t
+(use-package yaml-mode
+  :straight t)
+(use-package deadgrep
+  :straight t)
+(use-package avy
+  :straight t
   :bind (("M-P" . avy-goto-char)))
-(use-package expand-region :straight t
+(use-package expand-region
+  :straight t
   :bind (("M-O" . er/expand-region)))
 
-(use-package dockerfile-mode :straight t)
-(use-package eglot :straight t)
-(use-package magit :straight t)
-(use-package counsel :straight t)
-(use-package rainbow-delimiters :straight t)
-(use-package company :straight t)
+(use-package dockerfile-mode
+  :straight t)
+(use-package eglot
+  :straight t)
+(use-package magit
+  :straight t)
+(use-package rainbow-delimiters
+  :straight t)
+(use-package company
+  :straight t)
 
-(use-package vertico :straight t
+(use-package vertico
+  :straight t
   :init
   (vertico-mode))
 
-(use-package slime :straight t
-  :bind (("C-c b" . slime-eval-buffer))
+(use-package slime
+  :straight t
   :init
   (setq inferior-lisp-program "sbcl")
   (load (expand-file-name "~/quicklisp/slime-helper.el"))
@@ -44,21 +54,41 @@
   :config
   (require 'slime-cl-indent)
   (put 'define-package 'common-lisp-indent-function '(as defpackage))
-  (put 'defroutes 'common-lisp-indent-function '(as defparameter))
   :hook
   (lisp-mode . rainbow-delimiters-mode)
-  ;; (slime-mode . (lambda ()
-  ;; 		  (unless (slime-connected-p)
-  ;; 		    (save-excursion (slime)))))
-  )
+  (slime-mode . (lambda ()
+		  (unless (slime-connected-p)
+		    (save-excursion (slime))))))
 
-(use-package lass :ensure nil
+(use-package vice-mode
+  :straight (vice
+	     :local-repo "vice"
+	     :branch "master"
+	     :files (:defaults "vice-mode.el"))
+  :load-path "/home/gpapadok/.emacs.d/github/vice"
+  :config (vice-mode))
+
+;; (use-package vice-mode
+;;   :straight (vice
+;; 	     :host github
+;; 	     :repo "gpapadok/vice"
+;; 	     :local-repo "vice"
+;; 	     :branch "master"
+;; 	     :files (:defaults "vice-mode.el"))
+;;   :init (vice-mode))
+
+(use-package lass
+  :ensure nil
   :load-path "/home/gpapadok/quicklisp/dists/quicklisp/software/lass-20230214-git")
 
-(use-package clojure-mode :straight t)
-(use-package cider :straight t)
+(use-package clojure-mode
+  :straight t)
 
-(use-package flymake-kondor :straight t
+(use-package cider
+  :straight t)
+
+(use-package flymake-kondor
+  :straight t
   :hook (clojure-mode . flymake-kondor-setup)
   :bind (("M-n" . flymake-goto-next-error)
 	 ("M-p" . flymake-goto-prev-error)))
@@ -71,15 +101,13 @@
   (show-paren-mode 1)
   (column-number-mode 1)
   (line-number-mode 1)
-  ;; (company-mode 1)
-  ;; (vim-binds-mode 1)
 
   (setq-default truncate-lines 1)
   (setq tab-always-indent 'complete)
   (setq sql-indent-level 4)
 
   (keymap-global-set "M-P" 'avy-goto-char)
-  (keymap-global-set "C-c RET" 'emacs-lisp-macroexpand))
+  (keymap-set emacs-lisp-mode-map "C-c RET" 'emacs-lisp-macroexpand))
 
 (init)
 
