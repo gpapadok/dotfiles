@@ -45,6 +45,35 @@
   :init
   (vertico-mode))
 
+(defun surround-print-at-point ()
+  (interactive)
+  (save-excursion
+    (unless (char-equal (char-after) ?\()
+      (backward-up-list))
+    (insert "(print ")
+    (forward-sexp)
+    (insert ?\))))
+
+(defun remove-print-at-point ()
+  (interactive)
+  (save-excursion
+    (let ((done nil))
+      (while (not done)
+	(let ((c (char-after)))
+	  (forward-char)
+	  (if (and (char-equal c ?\() (string= (thing-at-point 'word t) "print"))
+	      (progn
+		(backward-char)
+		(kill-word 1)
+		(delete-char 1)
+		(forward-sexp)
+		(delete-char 1)
+		(backward-sexp)
+		(setq done t))
+	    (progn
+	      (backward-char)
+	      (backward-up-list))))))))
+
 (use-package slime
   :straight t
   :init
@@ -54,6 +83,9 @@
   :config
   (require 'slime-cl-indent)
   (put 'define-package 'common-lisp-indent-function '(as defpackage))
+  :bind
+  (("C-x v p" . surround-print-at-point)
+   ("C-x v M-p" . remove-print-at-point))
   :hook
   (lisp-mode . rainbow-delimiters-mode)
   (slime-mode . (lambda ()
@@ -62,20 +94,12 @@
 
 (use-package vice-mode
   :straight (vice
+	     :host github
+	     :repo "gpapadok/vice"
 	     :local-repo "vice"
 	     :branch "master"
 	     :files (:defaults "vice-mode.el"))
-  :load-path "/home/gpapadok/.emacs.d/github/vice"
-  :config (vice-mode))
-
-;; (use-package vice-mode
-;;   :straight (vice
-;; 	     :host github
-;; 	     :repo "gpapadok/vice"
-;; 	     :local-repo "vice"
-;; 	     :branch "master"
-;; 	     :files (:defaults "vice-mode.el"))
-;;   :init (vice-mode))
+  :init (vice-mode))
 
 (use-package lass
   :ensure nil
@@ -118,3 +142,7 @@
 (defun project-helm-find ()
   (interactive "P")
   (helm-find-1 (project-root (project-current))))
+
+(defun current-file-new-frame ()
+  (interactive)
+  (shell-command (format "emacs --no-splash %s" (buffer-file-name))))
