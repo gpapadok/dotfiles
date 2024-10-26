@@ -36,8 +36,6 @@
 
 (use-package dockerfile-mode
   :straight t)
-(use-package eglot
-  :straight t)
 (use-package magit
   :straight t)
 (use-package rainbow-delimiters
