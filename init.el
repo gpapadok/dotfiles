@@ -14,9 +14,14 @@
   (load bootstrap-file nil 'nomessage))
 (straight-use-package 'use-package)
 
-(use-package timu-macos-theme
+
+;; Honorable mentions
+;; timu-macos
+;; cyberpunk
+
+(use-package zenburn-theme
   :straight t
-  :config (load-theme 'timu-macos t))
+  :config (load-theme 'zenburn t))
 
 (use-package yaml-mode
   :straight t)
@@ -24,11 +29,11 @@
   :straight t)
 (use-package avy
   :straight t
-  :bind (("M-P" . avy-goto-char)
-         ("M-K" . avy-goto-char-2)
-         ("M-I" . avy-goto-char-timer)
-         ("M-L" . avy-goto-line)
-         ("M-W" . avy-goto-word-1)))
+  :bind (("C-c '" . avy-goto-char)
+         ("C-c c" . avy-goto-char-2)
+         ("C-c t" . avy-goto-char-timer)
+         ("C-c k" . avy-goto-line)
+         ("C-c w" . avy-goto-word-1)))
 
 (use-package expand-region
   :straight t
@@ -160,10 +165,16 @@
   :bind (("M-n" . flymake-goto-next-error)
          ("M-p" . flymake-goto-prev-error)))
 
+(defun insert-lambda ()
+  (interactive)
+  (insert 955))
+
 (defun init ()
   (add-hook 'prog-mode-hook 'display-line-numbers-mode)
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
+  (scroll-bar-mode 0)
+  (tool-bar-mode 0)
   (menu-bar-mode 0)
   (show-paren-mode 1)
   (column-number-mode 1)
@@ -175,8 +186,10 @@
   (setq tab-always-indent 'complete)
   (setq sql-indent-level 4)
 
-  (keymap-global-set "M-P" 'avy-goto-char)
+  (keymap-global-set "C-c l" 'insert-lambda)
   (keymap-global-set "C-x p g" 'deadgrep)
+  (when (string= system-type "darwin")
+    (keymap-global-set "C-M-m" 'mark-sexp))
   (keymap-set emacs-lisp-mode-map "C-c RET" 'emacs-lisp-macroexpand))
 
 (init)
