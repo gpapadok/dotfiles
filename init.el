@@ -14,19 +14,19 @@
   (load bootstrap-file nil 'nomessage))
 (straight-use-package 'use-package)
 
+(use-package zenburn-theme
+  :straight t
+  :config (load-theme 'zenburn t))
 
 ;; Honorable mentions
 ;; timu-macos
 ;; cyberpunk
 
-(use-package zenburn-theme
-  :straight t
-  :config (load-theme 'zenburn t))
-
 (use-package yaml-mode
   :straight t)
 (use-package deadgrep
-  :straight t)
+  :straight t
+  :bind (("C-x p g" . deadgrep)))
 (use-package avy
   :straight t
   :bind (("C-c '" . avy-goto-char)
@@ -63,6 +63,16 @@
   :straight t
   :init
   (marginalia-mode))
+
+(use-package clojure-mode
+  :straight t)
+(use-package cider
+  :straight t)
+(use-package flymake-kondor
+  :straight t
+  :hook (clojure-mode . flymake-kondor-setup)
+  :bind (("M-n" . flymake-goto-next-error)
+         ("M-p" . flymake-goto-prev-error)))
 
 (defun surround-print-at-point ()
   (interactive)
@@ -111,6 +121,10 @@
   (("C-x v p" . surround-print-at-point)
    ("C-x v M-p" . remove-print-at-point)))
 
+(use-package lass
+  :ensure nil
+  :load-path "/home/gpapadok/quicklisp/dists/quicklisp/software/lass-20230214-git")
+
 ;;; rover
 (defun rover-defun-name-at-point (&optional form)
   (let ((form (or form (slime-defun-at-point))))
@@ -149,22 +163,6 @@
              :files (:defaults "vice-mode.el"))
   :init (vice-mode))
 
-(use-package lass
-  :ensure nil
-  :load-path "/home/gpapadok/quicklisp/dists/quicklisp/software/lass-20230214-git")
-
-(use-package clojure-mode
-  :straight t)
-
-(use-package cider
-  :straight t)
-
-(use-package flymake-kondor
-  :straight t
-  :hook (clojure-mode . flymake-kondor-setup)
-  :bind (("M-n" . flymake-goto-next-error)
-         ("M-p" . flymake-goto-prev-error)))
-
 (defun insert-lambda ()
   (interactive)
   (insert 955))
@@ -187,7 +185,6 @@
   (setq sql-indent-level 4)
 
   (keymap-global-set "C-c l" 'insert-lambda)
-  (keymap-global-set "C-x p g" 'deadgrep)
   (when (string= system-type "darwin")
     (keymap-global-set "C-M-m" 'mark-sexp))
   (keymap-set emacs-lisp-mode-map "C-c RET" 'emacs-lisp-macroexpand))
@@ -195,13 +192,11 @@
 (init)
 
 (defun load-config ()
+  "Opens the user init file."
   (interactive)
   (find-file user-init-file))
 
-(defun project-helm-find ()
-  (interactive "P")
-  (helm-find-1 (project-root (project-current))))
-
-(defun current-file-new-frame ()
+(defun open-file-new-frame ()
+  "Opens the current file in a new window. (Used to copy files when working with terminal Emacs)"
   (interactive)
   (shell-command (format "emacs --no-splash %s" (buffer-file-name))))
