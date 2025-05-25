@@ -22,6 +22,14 @@
 ;; timu-macos
 ;; cyberpunk
 
+(use-package dashboard
+  :straight t
+  :config
+  (dashboard-setup-startup-hook))
+
+(use-package page-break-lines
+  :straight t)
+
 (use-package yaml-mode
   :straight t)
 (use-package deadgrep
@@ -123,7 +131,7 @@
 
 (use-package lass
   :ensure nil
-  :load-path "/home/gpapadok/quicklisp/dists/quicklisp/software/lass-20230214-git")
+  :load-path (concat (getenv "HOME") "/quicklisp/dists/quicklisp/software/lass-20230214-git"))
 
 ;;; rover
 (defun rover-defun-name-at-point (&optional form)
