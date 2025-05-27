@@ -1,3 +1,6 @@
+;;; Emacs configuration
+;;; Author: gpapadok
+
 (defvar bootstrap-version)
 (let ((bootstrap-file (expand-file-name
                        "straight/repos/straight.el/bootstrap.el"
@@ -14,6 +17,8 @@
   (load bootstrap-file nil 'nomessage))
 (straight-use-package 'use-package)
 
+;;;; Aesthetics
+
 (use-package zenburn-theme
   :straight t
   :config (load-theme 'zenburn t))
@@ -22,13 +27,46 @@
 ;; timu-macos
 ;; cyberpunk
 
+(use-package nerd-icons
+  :straight t)
 (use-package dashboard
   :straight t
+  :init
+  (setq dashboard-display-icons-p t
+        dashboard-icon-type "nerd-icons"
+        dashboard-set-heading-icons t
+        dashboard-set-file-icons t)
   :config
   (dashboard-setup-startup-hook))
 
 (use-package page-break-lines
   :straight t)
+
+(use-package helpful
+  :straight t
+  :bind
+  (("C-h f" . helpful-callable)
+   ("C-h v" . helpful-variable)
+   ("C-h k" . helpful-key)
+   ("C-h x" . helpful-command)))
+
+(use-package pulsar
+  :straight t
+  :config
+  (pulsar-global-mode t)
+  :bind
+  (("C-c h p" . pulsar-pulse-line)
+   ("C-c h h" . pulsar-highlight-line)))
+
+(use-package buffer-name-relative
+  :straight t
+  :config (buffer-name-relative-mode))
+
+(use-package golden-ratio
+  :straight t
+  :config (golden-ratio-mode t))
+
+;;;; end Aesthetics
 
 (use-package yaml-mode
   :straight t)
@@ -83,6 +121,7 @@
          ("M-p" . flymake-goto-prev-error)))
 
 (defun surround-print-at-point ()
+  "Surrounds a sexp with a print statement.  For debugging Lisp."
   (interactive)
   (save-excursion
     (unless (char-equal (char-after) ?\()
@@ -92,6 +131,7 @@
     (insert ?\))))
 
 (defun remove-print-at-point ()
+  "Remove a surrounding print statement from a sexp."
   (interactive)
   (save-excursion
     (let ((done nil))
@@ -133,7 +173,7 @@
   :ensure nil
   :load-path (concat (getenv "HOME") "/quicklisp/dists/quicklisp/software/lass-20230214-git"))
 
-;;; rover
+;;; rover - Helper functions for running cl-rove tests.
 (defun rover-defun-name-at-point (&optional form)
   (let ((form (or form (slime-defun-at-point))))
     (cadr (read form))))
@@ -159,8 +199,7 @@
   (slime-compile-and-load-file)
   (slime-interactive-eval
    (prin1-to-string '(rove:run-suite (intern (package-name *package*) :keyword)))))
-
-;;;
+;;; end rover
 
 (use-package vice-mode
   :straight (vice
@@ -172,6 +211,7 @@
   :init (vice-mode))
 
 (defun insert-lambda ()
+  "Insert λ."
   (interactive)
   (insert 955))
 
@@ -186,11 +226,11 @@
   (column-number-mode 1)
   (line-number-mode 1)
 
-  (setq-default truncate-lines 1)
-  (setq-default tab-width 4)
-  (setq-default indent-tabs-mode nil)
-  (setq tab-always-indent 'complete)
-  (setq sql-indent-level 4)
+  (setq-default truncate-lines 1
+                tab-width 4
+                indent-tabs-mode nil)
+  (setq tab-always-indent 'complete
+        sql-indent-level 4)
 
   (keymap-global-set "C-c l" 'insert-lambda)
   (when (string= system-type "darwin")
@@ -205,6 +245,7 @@
   (find-file user-init-file))
 
 (defun open-file-new-frame ()
-  "Opens the current file in a new window. (Used to copy files when working with terminal Emacs)"
+  "Opens the current file in a new window.
+Used to copy files when working with terminal Emacs."
   (interactive)
   (shell-command (format "emacs --no-splash %s" (buffer-file-name))))
