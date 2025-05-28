@@ -1,4 +1,5 @@
-;;; Emacs configuration
+;;; init.el --- Emacs configuration -*- lexical-binding: t -*-
+
 ;;; Author: gpapadok
 
 (defvar bootstrap-version)
@@ -23,10 +24,6 @@
   :straight t
   :config (load-theme 'zenburn t))
 
-;; Honorable mentions
-;; timu-macos
-;; cyberpunk
-
 (use-package nerd-icons
   :straight t)
 (use-package dashboard
@@ -38,7 +35,6 @@
         dashboard-set-file-icons t)
   :config
   (dashboard-setup-startup-hook))
-
 (use-package page-break-lines
   :straight t)
 
@@ -67,6 +63,9 @@
   :config (golden-ratio-mode t))
 
 ;;;; end Aesthetics
+
+(use-package which-key
+  :straight t)
 
 (use-package yaml-mode
   :straight t)
@@ -249,3 +248,27 @@
 Used to copy files when working with terminal Emacs."
   (interactive)
   (shell-command (format "emacs --no-splash %s" (buffer-file-name))))
+
+;;; Because I can.
+(defconst selected-themes '(zenburn timu-macos cyberpunk solarized-dark planet))
+
+(defun theme-package (theme)
+  (if (equal theme 'solarized-dark)
+      'solarized-theme
+    (intern (concat (symbol-name theme) "-theme"))))
+
+(defun ensure-installed-and-load-theme (theme)
+  (condition-case nil
+      (load-theme theme t)
+    (error
+     (straight-use-package (theme-package theme))
+     (ensure-installed-and-load-theme theme)))
+  (message "Theme %s loaded." theme))
+
+(let ((available-themes selected-themes))
+  (defun cycle-themes ()
+    (interactive)
+    (when (null available-themes)
+      (setf available-themes selected-themes))
+    (ensure-installed-and-load-theme (car available-themes))
+    (setf available-themes (cdr available-themes))))
