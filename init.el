@@ -46,14 +46,6 @@
    ("C-h k" . helpful-key)
    ("C-h x" . helpful-command)))
 
-(use-package pulsar
-  :straight t
-  :config
-  (pulsar-global-mode t)
-  :bind
-  (("C-c h p" . pulsar-pulse-line)
-   ("C-c h h" . pulsar-highlight-line)))
-
 (use-package buffer-name-relative
   :straight t
   :config (buffer-name-relative-mode))
