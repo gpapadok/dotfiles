@@ -228,7 +228,7 @@
                 tab-width 4
                 indent-tabs-mode nil)
   (setq tab-always-indent 'complete
-        sql-indent-level 4)
+        gc-cons-threshold (* 60 1000 1000)) ; 60MB
 
   (keymap-global-set "C-c l" 'insert-lambda)
   (when (string= system-type "darwin")
