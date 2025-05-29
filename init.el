@@ -54,6 +54,10 @@
   :straight t
   :config (golden-ratio-mode t))
 
+(use-package org-bullets
+  :straight t
+  :hook (org-mode . org-bullets-mode))
+
 ;;;; end Aesthetics
 
 (use-package which-key
