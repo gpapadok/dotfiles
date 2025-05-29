@@ -206,9 +206,16 @@
   (interactive)
   (insert 955))
 
+(defun display-startup-time ()
+  (message "Emacs loaded in %.2f seconds with %d garbage collections."
+           (float-time
+            (time-subtract after-init-time before-init-time))
+           gcs-done))
+
 (defun init ()
   (add-hook 'prog-mode-hook 'display-line-numbers-mode)
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
+  (add-hook 'emacs-startup-hook 'display-startup-time)
 
   (scroll-bar-mode 0)
   (tool-bar-mode 0)
