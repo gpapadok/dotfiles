@@ -44,7 +44,8 @@
   (("C-h f" . helpful-callable)
    ("C-h v" . helpful-variable)
    ("C-h k" . helpful-key)
-   ("C-h x" . helpful-command)))
+   ("C-h x" . helpful-command)
+   ("C-c C-d" . helpful-at-point)))
 
 (use-package buffer-name-relative
   :straight t
@@ -52,6 +53,7 @@
 
 (use-package golden-ratio
   :straight t
+  :init (setq golden-ratio-auto-scale t)
   :config (golden-ratio-mode t))
 
 (use-package org-bullets
@@ -61,7 +63,9 @@
 ;;;; end Aesthetics
 
 (use-package which-key
-  :straight t)
+  :straight t
+  :config
+  (which-key-mode))
 
 (use-package yaml-mode
   :straight t)
@@ -87,7 +91,8 @@
 (use-package rainbow-delimiters
   :straight t)
 (use-package company
-  :straight t)
+  :straight t
+  :hook (after-init . global-company-mode))
 
 (use-package vertico
   :straight t
