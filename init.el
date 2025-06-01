@@ -17,17 +17,15 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 (straight-use-package 'use-package)
+(setq straight-use-package-by-default t)
 
 ;;;; Aesthetics
 
 (use-package zenburn-theme
-  :straight t
   :config (load-theme 'zenburn t))
 
-(use-package nerd-icons
-  :straight t)
+(use-package nerd-icons)
 (use-package dashboard
-  :straight t
   :init
   (setq dashboard-display-icons-p t
         dashboard-icon-type "nerd-icons"
@@ -35,11 +33,9 @@
         dashboard-set-file-icons t)
   :config
   (dashboard-setup-startup-hook))
-(use-package page-break-lines
-  :straight t)
+(use-package page-break-lines)
 
 (use-package helpful
-  :straight t
   :bind
   (("C-h f" . helpful-callable)
    ("C-h v" . helpful-variable)
@@ -48,32 +44,25 @@
    ("C-c C-d" . helpful-at-point)))
 
 (use-package buffer-name-relative
-  :straight t
   :config (buffer-name-relative-mode))
 
 (use-package golden-ratio
-  :straight t
   :init (setq golden-ratio-auto-scale t)
   :config (golden-ratio-mode t))
 
 (use-package org-bullets
-  :straight t
   :hook (org-mode . org-bullets-mode))
 
 ;;;; end Aesthetics
 
 (use-package which-key
-  :straight t
   :config
   (which-key-mode))
 
-(use-package yaml-mode
-  :straight t)
+(use-package yaml-mode)
 (use-package deadgrep
-  :straight t
   :bind (("C-x p g" . deadgrep)))
 (use-package avy
-  :straight t
   :bind (("C-c '" . avy-goto-char)
          ("C-c c" . avy-goto-char-2)
          ("C-c t" . avy-goto-char-timer)
@@ -81,41 +70,30 @@
          ("C-c w" . avy-goto-word-1)))
 
 (use-package expand-region
-  :straight t
   :bind (("M-O" . er/expand-region)))
 
-(use-package dockerfile-mode
-  :straight t)
-(use-package magit
-  :straight t)
-(use-package rainbow-delimiters
-  :straight t)
+(use-package dockerfile-mode)
+(use-package magit)
+(use-package rainbow-delimiters)
 (use-package company
-  :straight t
   :hook (after-init . global-company-mode))
 
 (use-package vertico
-  :straight t
   :init
   (vertico-mode)
   :custom
   (vertico-cycle t))
 (use-package savehist
-  :straight t
   :init
   (savehist-mode))
 (use-package marginalia
   :after vertico
-  :straight t
   :init
   (marginalia-mode))
 
-(use-package clojure-mode
-  :straight t)
-(use-package cider
-  :straight t)
+(use-package clojure-mode)
+(use-package cider)
 (use-package flymake-kondor
-  :straight t
   :hook (clojure-mode . flymake-kondor-setup)
   :bind (("M-n" . flymake-goto-next-error)
          ("M-p" . flymake-goto-prev-error)))
@@ -152,7 +130,6 @@
               (backward-up-list))))))))
 
 (use-package slime
-  :straight t
   :init
   (setq inferior-lisp-program "sbcl")
   (load (expand-file-name "~/quicklisp/slime-helper.el"))
