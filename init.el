@@ -53,6 +53,8 @@
 (use-package org-bullets
   :hook (org-mode . org-bullets-mode))
 
+(use-package beacon
+  :config (beacon-mode 1))
 ;;;; end Aesthetics
 
 (use-package which-key
@@ -97,6 +99,8 @@
   :hook (clojure-mode . flymake-kondor-setup)
   :bind (("M-n" . flymake-goto-next-error)
          ("M-p" . flymake-goto-prev-error)))
+
+(use-package simple-httpd)
 
 (defun surround-print-at-point ()
   "Surrounds a sexp with a print statement.  For debugging Lisp."
@@ -219,7 +223,9 @@
   (keymap-global-set "C-c l" 'insert-lambda)
   (when (string= system-type "darwin")
     (keymap-global-set "C-M-m" 'mark-sexp))
-  (keymap-set emacs-lisp-mode-map "C-c RET" 'emacs-lisp-macroexpand))
+  (keymap-set emacs-lisp-mode-map "C-c RET" 'emacs-lisp-macroexpand)
+  (keymap-set completion-in-region-mode-map "M-p" 'minibuffer-previous-completion)
+  (keymap-set completion-in-region-mode-map "M-n" 'minibuffer-next-completion))
 
 (init)
 
