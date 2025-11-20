@@ -2,6 +2,7 @@ return {
   cmd = { 'lua-language-server' },
   filetypes = { 'lua' },
   root_markers = { { '.luarc.json', 'luarc.jsonc' }, '.git' },
+
   on_init = function(client)
     if client.workspace_folders then
       local path = client.workspace_folders[1].name
@@ -12,27 +13,20 @@ return {
         return
       end
     end
-
-    client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
-      runtime = {
-        version = 'LuaJIT',
-        path = {
-          'lua/?.lua',
-          'lua/?/init.lua',
-        },
-      },
-      workspace = {
-        checkThirdParty = false,
-        library = {
-          vim.env.VIMRUNTIME,
-        },
-      },
-    })
   end,
+
   settings = {
-    Lua = {
-      runtime = {
-        version = 'LuaJIT',
+    runtime = {
+      version = 'LuaJIT',
+      path = {
+        'lua/?.lua',
+        'lua/?/init.lua',
+      },
+    },
+    workspace = {
+      checkThirdParty = false,
+      library = {
+        vim.env.VIMRUNTIME,
       },
     },
   },
