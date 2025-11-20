@@ -55,10 +55,11 @@ vim.lsp.config('*', {
   root_markers = { '.git' },
   on_attach = function(_, bufnr)
     print('Attaching to language server')
-    vim.fn.keymaps_set(general_config.keys.keymaps, vim.tbl_extend('force', general_config.keys.default_opts, { buffer = bufnr }))
+    vim.fn.keymaps_set(
+      general_config.keys.keymaps,
+      vim.tbl_extend('force', general_config.keys.default_opts, { buffer = bufnr })
+    )
   end,
 })
 
-for _, ls in pairs(general_config.language_servers) do
-  vim.lsp.enable(ls)
-end
+vim.lsp.enable(general_config.language_servers)
