@@ -1,8 +1,12 @@
 return {
   "nvim-treesitter/nvim-treesitter",
-  branch = 'main',
+  branch = 'master',
   lazy = false,
   build = ":TSUpdate",
+
+  config = function(_, opts)
+    require'nvim-treesitter.configs'.setup(opts)
+  end,
 
   opts = {
     ensure_installed = vim.list_extend(
