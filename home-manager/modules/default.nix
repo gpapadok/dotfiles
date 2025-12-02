@@ -15,6 +15,8 @@
     pkgs.tmux
     pkgs.tree
     pkgs.fd
+    pkgs.zsh
+    pkgs.oh-my-zsh
 
     pkgs.nerd-fonts.roboto-mono
   ];
@@ -33,5 +35,26 @@
     EDITOR = "nvim";
   };
 
-  programs.home-manager.enable = true;
+  programs = {
+    home-manager.enable = true;
+
+    tmux = {
+      enable = true;
+
+      shell = "${pkgs.zsh}/bin/zsh";
+    };
+
+    zsh = {
+      enable = true;
+
+      oh-my-zsh = {
+        enable = true;
+
+        theme = "robbyrussell";
+        plugins = [
+          "git"
+        ];
+      };
+    };
+  };
 }
