@@ -18,6 +18,9 @@
     pkgs.zsh
     pkgs.oh-my-zsh
 
+    # networking
+    pkgs.whois
+
     pkgs.nerd-fonts.roboto-mono
   ];
 
