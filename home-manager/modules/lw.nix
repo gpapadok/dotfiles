@@ -21,6 +21,11 @@
     ".lw_aliases".source = ../dotfiles/lw_aliases;
   };
 
+  home.sessionVariables = {
+    LWDEV = "True";
+    DOCKER_LW_ENV = "$HOME/workspace/lw/devsetup/";
+  };
+
   programs.git = {
     enable = true;
 
