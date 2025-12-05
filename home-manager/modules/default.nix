@@ -58,6 +58,10 @@
           "git"
         ];
       };
+
+      shellAliases = {
+        hms = "home-manager switch";
+      };
     };
   };
 }
