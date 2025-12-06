@@ -2,7 +2,7 @@
 
 {
   home.username = "gpapadok";
-  home.homeDirectory = "/home/gpapadok";
+  home.homeDirectory = "/Users/gpapadok";
 
   home.stateVersion = "25.05"; # You should not manually update this value
 
@@ -17,6 +17,8 @@
     pkgs.fd
     pkgs.zsh
     pkgs.oh-my-zsh
+    pkgs.postgresql_17_jit
+    pkgs.rainfrog
 
     # networking
     pkgs.whois
@@ -56,11 +58,24 @@
         theme = "robbyrussell";
         plugins = [
           "git"
+          "sh-autosuggestions"
+          "you-should-use"
         ];
       };
 
       shellAliases = {
         hms = "home-manager switch";
+
+        dc_ = "docker compose";
+        dcup = "docker compose up";
+        dcdown = "docker compose down";
+        dockps = "docker ps --format \"{{.ID}} {{.Names}}\"";
+        dcbuild = "docker compose build";
+
+        stripe = "docker run --rm -it -v ~/.config/stripe:/root/.config/stripe stripe/stripe-cli:latest";
+
+        df = "df -h";
+        du = "du -hs";
       };
     };
   };
