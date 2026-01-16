@@ -1,11 +1,5 @@
 local general_config = {
-  language_servers = vim.list_extend(
-    { 'lua_ls', 'pyright' },
-    vim.fn.array_if(
-      os.getenv("LWDEV") == "True",
-      { 'intelephense', 'gopls' }
-    )
-  ),
+  language_servers = { 'lua_ls', 'pyright' },
   diagnostic_config = {
     -- Don't set both to true
     virtual_text = true,

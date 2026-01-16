@@ -9,10 +9,7 @@ return {
   end,
 
   opts = {
-    ensure_installed = vim.list_extend(
-      { "lua", "python", "markdown" },
-      vim.fn.array_if(os.getenv("LWDEV") == "True", { "php", "go" })
-    ),
+    ensure_installed = { "lua", "python", "markdown" },
 
     sync_install = false,
     auto_install = false,
