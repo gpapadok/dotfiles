@@ -46,4 +46,8 @@
              :files (:defaults "vice-mode.el"))
   :init (vice-mode))
 
+(use-package paredit
+  :hook ((clojure-mode . paredit-mode)
+         (emacs-lisp-mode . paredit-mode)))
+
 (provide 'init-util)

@@ -30,6 +30,7 @@
     init-misc
     init-config
     init-theme
+    init-lsp
     helpers))
 
 (dolist (mod init-modules)

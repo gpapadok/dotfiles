@@ -10,4 +10,6 @@
 
 (use-package simple-httpd)
 
+(use-package lua-mode)
+
 (provide 'init-misc)

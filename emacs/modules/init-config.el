@@ -1,10 +1,6 @@
 ;;; init-config.el --- Generic configuration -*- lexical-binding: t -*-
 
 (defun init ()
-  (add-hook 'prog-mode-hook 'display-line-numbers-mode)
-  (add-hook 'before-save-hook 'delete-trailing-whitespace)
-  (add-hook 'emacs-startup-hook 'display-startup-time)
-
   ;; (scroll-bar-mode 0)
   (tool-bar-mode 0)
   (menu-bar-mode 0)
@@ -26,5 +22,10 @@
   (keymap-set completion-in-region-mode-map "M-n" 'minibuffer-next-completion))
 
 (init)
+
+(use-package emacs
+  :hook ((prog-mode . display-line-numbers-mode)
+         (before-save . delete-trailing-whitespace)
+         (emacs-startup . display-startup-time)))
 
 (provide 'init-config)
