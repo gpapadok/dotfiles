@@ -35,6 +35,9 @@
 (use-package beacon
   :config (beacon-mode 1))
 
-(use-package rainbow-delimiters)
+(use-package rainbow-delimiters
+  :bind ((lisp-mode . rainbow-delimiters-mode)
+         (emacs-lisp-mode . rainbow-delimiters-mode)
+         (clojure-mode . rainbow-delimiters-mode)))
 
 (provide 'init-aesthetics)

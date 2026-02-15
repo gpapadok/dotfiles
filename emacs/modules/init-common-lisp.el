@@ -9,7 +9,6 @@
   (require 'slime-cl-indent)
   (put 'define-package 'common-lisp-indent-function '(as defpackage))
   :hook
-  (lisp-mode . rainbow-delimiters-mode)
   (slime-mode . (lambda ()
                   (unless (slime-connected-p)
                     (save-excursion (slime)))))

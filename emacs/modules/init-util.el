@@ -48,6 +48,7 @@
 
 (use-package paredit
   :hook ((clojure-mode . paredit-mode)
-         (emacs-lisp-mode . paredit-mode)))
+         (emacs-lisp-mode . paredit-mode)
+         (lisp-mode . paredit-mode)))
 
 (provide 'init-util)
