@@ -52,13 +52,25 @@
     zsh = {
       enable = true;
 
+      plugins = [
+        {
+          name = "zsh-autosuggestions";
+          file = "zsh-autosuggestions.zsh";
+          src = pkgs.fetchFromGitHub {
+            owner = "zsh-users";
+            repo = "zsh-autosuggestions";
+            rev = "v0.7.1";
+            sha256 = "sha256-vpTyYq9ZgfgdDsWzjxVAE7FZH4MALMNZIFyEOBLm5Qo=";
+          };
+        }
+      ];
+
       oh-my-zsh = {
         enable = true;
 
         theme = "robbyrussell";
         plugins = [
           "git"
-          "sh-autosuggestions"
           "you-should-use"
         ];
       };
