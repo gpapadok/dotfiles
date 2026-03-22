@@ -18,6 +18,7 @@
 
 (let ((available-themes selected-themes))
   (defun cycle-themes ()
+    "Cycle between all a group of selected themes."
     (interactive)
     (when (null available-themes)
       (setf available-themes selected-themes))

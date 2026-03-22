@@ -1,9 +1,12 @@
-;;; init-config.el --- Generic configuration -*- lexical-binding: t -*-
+;;; init-config.el --- Generic Emacs configuration -*- lexical-binding: t -*-
+
+;;; Code:
 
 (use-package emacs
   :hook
   ((prog-mode . display-line-numbers-mode)
    (before-save . delete-trailing-whitespace)
+   (emacs-lisp-mode . flymake-mode)
    (emacs-startup . display-startup-time))
 
   :bind
@@ -33,3 +36,4 @@
   (line-number-mode 1))
 
 (provide 'init-config)
+;;; init-config.el ends here

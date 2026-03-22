@@ -1,9 +1,12 @@
-;;; init-aesthetics.el --- Aesthetics configuration -*- lexical-binding: t -*-
+;;; init-aesthetics.el --- Aesthetics related configuration -*- lexical-binding: t -*-
+
+;;; Code:
 
 (use-package zenburn-theme
   :config (load-theme 'zenburn t))
 
 (use-package nerd-icons)
+
 (use-package dashboard
   :init
   (setq dashboard-display-icons-p t
@@ -12,6 +15,7 @@
         dashboard-set-file-icons t)
   :config
   (dashboard-setup-startup-hook))
+
 (use-package page-break-lines)
 
 (use-package helpful
@@ -41,3 +45,4 @@
          (clojure-mode . rainbow-delimiters-mode)))
 
 (provide 'init-aesthetics)
+;;; init-aesthetics.el ends here

@@ -1,4 +1,6 @@
-;;; helpers.el --- Helpers -*- lexical-binding: t -*-
+;;; helpers.el --- Helper functions -*- lexical-binding: t -*-
+
+;;; Code:
 
 (defun insert-lambda ()
   "Insert λ."
@@ -23,3 +25,4 @@ Used to copy files when working with terminal Emacs."
   (shell-command (format "emacs --no-splash %s" (buffer-file-name))))
 
 (provide 'helpers)
+;;; helpers.el ends here

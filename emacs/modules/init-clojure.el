@@ -1,5 +1,7 @@
 ;;; init-clojure.el --- Clojure configuration -*- lexical-binding: t -*-
 
+;;; Code:
+
 (use-package clojure-mode)
 
 (use-package cider)
@@ -10,3 +12,4 @@
          ("M-p" . flymake-goto-prev-error)))
 
 (provide 'init-clojure)
+;;; init-clojure.el ends here

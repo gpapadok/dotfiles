@@ -1,5 +1,7 @@
 ;;; init-common-lisp.el --- Common Lisp configuration -*- lexical-binding: t -*-
 
+;;; Code:
+
 (use-package slime
   :init
   (setq inferior-lisp-program "sbcl")
@@ -83,3 +85,4 @@
               (backward-up-list))))))))
 
 (provide 'init-common-lisp)
+;;; init-common-lisp.el ends here
