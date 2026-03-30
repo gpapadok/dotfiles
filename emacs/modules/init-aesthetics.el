@@ -40,7 +40,7 @@
   :config (beacon-mode 1))
 
 (use-package rainbow-delimiters
-  :bind ((lisp-mode . rainbow-delimiters-mode)
+  :hook ((lisp-mode . rainbow-delimiters-mode)
          (emacs-lisp-mode . rainbow-delimiters-mode)
          (clojure-mode . rainbow-delimiters-mode)))
 
