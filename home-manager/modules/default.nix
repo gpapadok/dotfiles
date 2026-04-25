@@ -88,6 +88,8 @@
 
         df = "df -h";
         du = "du -hs";
+
+        aws = "docker run --rm -it -v ~/.aws:/root/.aws amazon/aws-cli";
       };
     };
   };
