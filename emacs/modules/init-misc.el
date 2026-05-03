@@ -12,4 +12,6 @@
 
 (use-package lua-mode)
 
+(use-package nginx-mode)
+
 (provide 'init-misc)
