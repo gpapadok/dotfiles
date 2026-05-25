@@ -14,4 +14,6 @@
 
 (use-package nginx-mode)
 
+(use-package terraform-mode)
+
 (provide 'init-misc)
