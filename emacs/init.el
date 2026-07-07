@@ -23,15 +23,19 @@
 
 (defvar init-modules
   '(init-python
+    init-theme
     init-aesthetics
     init-clojure
     init-common-lisp
     init-util
     init-misc
     init-config
-    init-theme
     init-lsp
     helpers))
 
 (dolist (mod init-modules)
-  (require mod))
+  (condition-case err
+      (require mod)
+    (error (message "Failed to load %s: %s"
+                    mod
+                    (error-message-string err)))))
