@@ -15,7 +15,7 @@ return {
     { "<leader>k", "<cmd>Telescope lsp_references<cr>", desc = "Telescope - show LSP references", mode = "n" },
     { "gd", "<cmd>Telescope lsp_definitions<cr>", desc = "Telescope - show LSP definitions", mode = "n"  },
     { "gi", "<cmd>Telescope lsp_implementations<cr>", desc = "Telescope - show LSP implementations", mode = "n" },
-    { "gt", "<cmd>Telescope lsp_type_definitions<cr>", desc = "Telescope - show LSP type definitions", mode = "n" },
+    -- { "gt", "<cmd>Telescope lsp_type_definitions<cr>", desc = "Telescope - show LSP type definitions", mode = "n" },
     { "<leader>D", "<cmd>Telescope diagnostics bufnr=0<cr>", desc = "Telescope - show buffer diagnostics", mode = "n" },
   },
 }

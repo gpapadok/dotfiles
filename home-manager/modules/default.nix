@@ -91,6 +91,12 @@
 
         aws = "docker run --rm -it -v ~/.aws:/root/.aws amazon/aws-cli";
       };
+
+      initContent = ''
+        if [[ -d /home/$USER/bin ]]; then
+          export PATH=/home/$USER/bin:$PATH
+        fi
+      '';
     };
   };
 }
