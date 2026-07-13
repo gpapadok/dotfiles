@@ -1,6 +1,9 @@
 { config, pkgs, ...}:
 
 {
+  home.username = "gpapadok";
+  home.homeDirectory = "/Users/gpapadok";
+
   home.packages = [
     pkgs.clojure
     pkgs.leiningen

@@ -1,9 +1,6 @@
 { config, pkgs, ... }:
 
 {
-  home.username = "gpapadok";
-  home.homeDirectory = "/Users/gpapadok";
-
   home.stateVersion = "25.05"; # You should not manually update this value
 
   fonts.fontconfig.enable = true;

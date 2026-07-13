@@ -12,17 +12,22 @@
   outputs =
     { nixpkgs, home-manager, ... }:
     let
-      system = "aarch64-darwin";
-      pkgs = nixpkgs.legacyPackages.${system};
+      homeManagerConfiguration =
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+          modules:
+          home-manager.lib.homeManagerConfiguration {
+            inherit pkgs;
+            inherit modules;
+          };
     in
     {
-      homeConfigurations."gpapadok" = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-
-        modules = [
-          ./modules/default.nix
-          ./modules/mac.nix
-        ];
+        "gpapadok" = homeManagerConfiguration "aarch64-darwin" [
+            ./modules/mac.nix
+            ./modules/default.nix
+          ];
       };
     };
 }
