@@ -49,6 +49,13 @@
     zsh = {
       enable = true;
 
+      # Nix store paths on fpath are root-owned and immutable.
+      # oh-my-zsh can flag them insecure if home-manager was setup
+      # for another user first.
+      envExtra = ''
+        export ZSH_DISABLE_COMPFIX="true"
+      '';
+
       plugins = [
         {
           name = "zsh-autosuggestions";
