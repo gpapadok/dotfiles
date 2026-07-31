@@ -14,7 +14,7 @@
     settings = {
       user = {
         email = "giorgos.papadokostakis@proton.me";
-        username = "gpapadok";
+        name = "gpapadok";
       };
 
       core.editor = "nvim";
