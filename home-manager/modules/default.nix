@@ -24,8 +24,6 @@
   ];
 
   home.file = {
-    ".tmux.conf".source = ../dotfiles/tmux.conf;
-
     # Alternatively
     # ".grade/grade.properties".text = ''
     #   org.grade.console=verbose
@@ -44,6 +42,17 @@
       enable = true;
 
       shell = "${pkgs.zsh}/bin/zsh";
+      terminal = "xterm-256color";
+      keyMode = "emacs";
+      shortcut = "o";
+
+      extraConfig = ''
+        bind r source-file ~/.config/tmux/tmux.conf \; display-message "tmux.conf reloaded."
+
+        # colors
+        set -g status-style 'bg=#008b8b fg=#f5fffa'
+        set -g status-left-length 32
+      '';
     };
 
     zsh = {
@@ -60,6 +69,16 @@
             sha256 = "sha256-vpTyYq9ZgfgdDsWzjxVAE7FZH4MALMNZIFyEOBLm5Qo=";
           };
         }
+        {
+          name = "you-should-use";
+          file = "you-should-use.plugin.zsh";
+          src = pkgs.fetchFromGitHub {
+            owner = "MichaelAquilina";
+            repo = "zsh-you-should-use";
+            rev = "master";
+            sha256 = "sha256-1ojmr9+Wg5+X5Dip4sKjP4IKKACMncPQDZ8RtYQSQ80=";
+          };
+        }
       ];
 
       oh-my-zsh = {
@@ -68,7 +87,6 @@
         theme = "robbyrussell";
         plugins = [
           "git"
-          "you-should-use"
         ];
       };
 

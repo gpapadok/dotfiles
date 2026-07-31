@@ -25,11 +25,6 @@
     in
     {
       homeConfigurations = {
-        "lwgpapadok" = homeManagerConfiguration "x86_64-linux" [
-          ./modules/lw.nix
-          ./modules/default.nix
-        ];
-
         "gpapadok" = homeManagerConfiguration "aarch64-darwin" [
           ./modules/mac.nix
           ./modules/default.nix
