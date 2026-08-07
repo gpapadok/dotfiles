@@ -16,13 +16,7 @@
 (defun load-config ()
   "Opens the user init file."
   (interactive)
-  (find-file user-init-file))
-
-(defun open-file-new-frame ()
-  "Opens the current file in a new window.
-Used to copy files when working with terminal Emacs."
-  (interactive)
-  (shell-command (format "emacs --no-splash %s" (buffer-file-name))))
+  (load-file user-init-file))
 
 (provide 'helpers)
 ;;; helpers.el ends here

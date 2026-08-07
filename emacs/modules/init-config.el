@@ -20,6 +20,11 @@
   :init
   (when (string= system-type "darwin")
     (keymap-global-set "C-M-m" 'mark-sexp))
+  (unless (display-graphic-p)
+    (setq interprogram-cut-function
+          (lambda (text) (call-process-region text nil "pbcopy")))
+    (setq interprogram-paste-function
+          (lambda () (shell-command-to-string "pbpaste"))))
 
   :config
   (setq-default truncate-lines 1
