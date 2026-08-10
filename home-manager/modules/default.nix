@@ -16,6 +16,7 @@
     pkgs.oh-my-zsh
     pkgs.postgresql_17_jit
     pkgs.rainfrog
+    pkgs.gh
 
     # networking
     pkgs.whois
