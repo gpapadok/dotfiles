@@ -37,6 +37,9 @@
         ];
         RunAtLoad = true;
         KeepAlive = true;
+        EnvironmentVariables = {
+          PATH = "${config.home.homeDirectory}/.nix-profile/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+        };
         StandardOutPath = "${config.home.homeDirectory}/Library/Logs/emacs-daemon.log";
         StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/emacs-daemon.log";
       };
