@@ -122,4 +122,9 @@
       '';
     };
   };
+
+  programs.git.ignores = [
+    "**/.claude/worktrees/"
+    "**/.claude/settings.local.json"
+  ];
 }
