@@ -26,6 +26,11 @@ vim.lsp.config('*', {
   end,
 })
 
+-- vue is lost during merge with the default settings if we put filetypes in vtsls.lua
+vim.lsp.config('vtsls', {
+  filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue' },
+})
+
 vim.lsp.enable(config.language_servers)
 
 for _, command in pairs(config.commands) do

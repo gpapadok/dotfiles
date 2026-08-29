@@ -1,5 +1,13 @@
 return {
-  language_servers = { 'lua_ls', 'pyright' },
+  language_servers = {
+    'lua_ls',
+    'pyright',
+    'intelephense',
+    'gopls',
+    'vue_ls',
+    'vtsls',
+    'eslint',
+  },
   diagnostic_config = {
     -- Don't set both to true
     virtual_text = true,

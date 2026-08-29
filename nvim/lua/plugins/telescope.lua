@@ -6,6 +6,13 @@ return {
     { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
     'nvim-tree/nvim-web-devicons',
   },
+  opts = {
+    pickers = {
+      find_files = {
+        hidden = true,
+      },
+    },
+  },
   keys = {
     { '<leader>ff', '<cmd>Telescope find_files<cr>', desc = 'Telescope find files', mode = 'n' },
     { '<leader>fg', '<cmd>Telescope live_grep<cr>', desc = 'Telescope live grep', mode = 'n' },

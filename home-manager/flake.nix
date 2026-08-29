@@ -32,6 +32,7 @@
 
         "gpapadok-linux" = homeManagerConfiguration "x86_64-linux" [
           ./modules/linux.nix
+          ./modules/clean-downloads.nix
           ./modules/default.nix
         ];
       };
