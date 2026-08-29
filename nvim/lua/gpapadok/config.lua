@@ -30,4 +30,12 @@ return {
   commands = {
     'au BufWrite * lua vim.fn.trim_trailing_whitespace()',
   },
+  lsp_overrides = {
+    ['*'] = {
+    },
+    -- vue is lost during merge with the default settings if we put filetypes in vtsls.lua
+    vtsls = {
+      filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue' },
+    },
+  },
 }
