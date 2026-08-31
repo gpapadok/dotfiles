@@ -1,5 +1,13 @@
 return {
-  language_servers = { 'lua_ls', 'pyright' },
+  language_servers = {
+    'lua_ls',
+    'pyright',
+    'intelephense',
+    'gopls',
+    'vue_ls',
+    'vtsls',
+    'eslint',
+  },
   diagnostic_config = {
     -- Don't set both to true
     virtual_text = true,
@@ -21,5 +29,13 @@ return {
   },
   commands = {
     'au BufWrite * lua vim.fn.trim_trailing_whitespace()',
+  },
+  lsp_overrides = {
+    ['*'] = {
+    },
+    -- vue is lost during merge with the default settings if we put filetypes in vtsls.lua
+    vtsls = {
+      filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue' },
+    },
   },
 }

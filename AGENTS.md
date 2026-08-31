@@ -21,9 +21,10 @@ The root `.zshrc` is a standalone fallback (a handful of aliases) — it is **no
   - `modules/default.nix` — base packages/config shared by every profile (always applied): packages, tmux, zsh/oh-my-zsh, shell aliases.
   - `modules/mac.nix` — macOS profile: username/home dir under `/Users`, git identity, mac-only packages and aliases.
   - `modules/linux.nix` — Linux profile: username/home dir under `/home`, git identity.
-- Two `homeConfigurations` outputs exist, each `<machine-module> + default.nix`:
-  - `"gpapadok"` — `aarch64-darwin`, `mac.nix`
-  - `"gpapadok-linux"` — `x86_64-linux`, `linux.nix`
+  - `modules/clean-downloads.nix` — systemd user service + timer that deletes `~/Downloads` entries older than 30 days, weekly. Linux-only (systemd); applied alongside `linux.nix`, not `mac.nix`.
+- Two `homeConfigurations` outputs exist in `flake.nix`:
+  - `"gpapadok"` (`aarch64-darwin`) — `mac.nix` + `default.nix`
+  - `"gpapadok-linux"` (`x86_64-linux`) — `linux.nix` + `clean-downloads.nix` + `default.nix`
 - Adding a new machine profile means adding a new `homeConfigurations.<name>` entry with its own module list, not editing an existing one.
 - Flakes only see git-tracked files: a new module must be `git add`ed before `home-manager switch` can find it, even for an uncommitted local change.
 - tmux config lives inline in `programs.tmux` in `default.nix` (`terminal`, `keyMode`, `shortcut`, `extraConfig`) — edit it there, not as a separate file. `dotfiles/tmux.conf` is kept only as an unused fallback reference and is not linked into the home-manager build.
@@ -32,8 +33,8 @@ The root `.zshrc` is a standalone fallback (a handful of aliases) — it is **no
 ## Neovim (lazy.nvim)
 
 - Entry point: `nvim/init.lua` → `require("gpapadok")` → `nvim/lua/gpapadok/init.lua`, which wires up, in order: helpers (`util.lua`, exposed as global `vim.fn.*` functions), keymaps (`keymaps.lua`), diagnostics/LSP/autocommands (`config.lua`), plugin manager (`lazy.lua`), then `options.lua`.
-- `lua/gpapadok/config.lua` is a plain data table — enabled LSP servers (`language_servers`), diagnostic display (`diagnostic_config`), and buffer-write autocommands (`commands`). It has no logic; `init.lua` consumes it.
-- LSP servers are configured individually under `nvim/lsp/<server>.lua` (new-style `vim.lsp.config`/`vim.lsp.enable`, not `lspconfig`-managed setup calls) and enabled by listing them in `language_servers`. The two are independent: a server in the list with no file under `nvim/lsp/` falls back to the config `nvim-lspconfig` ships (that's how `pyright` works), and a file under `nvim/lsp/` that isn't in the list is inert (currently `intelephense`).
+- `lua/gpapadok/config.lua` is the place to change: enabled LSP servers, diagnostic display, and buffer-write autocommands. The LSP server list is unconditional — every server listed in `language_servers` is enabled on all machines.
+- LSP servers are configured individually under `nvim/lsp/<server>.lua` (new-style `vim.lsp.config`/`vim.lsp.enable`, not `lspconfig`-managed setup calls) and enabled via the `language_servers` list in `config.lua`. A server in the list with no file under `nvim/lsp/` falls back to the config `nvim-lspconfig` ships (that's how `pyright`, `gopls`, `vue_ls`, and `eslint` work).
 - Plugins live under `lua/plugins/*.lua`, one file per plugin, auto-imported by `lazy.lua`.
 - Lua formatting: `stylua.toml` — 2-space indent, 100 column width. Run `stylua` over `nvim/` if reformatting.
 - `nvim/lazy-lock.json` is a generated lockfile (plugin versions) — don't hand-edit; it updates when lazy.nvim syncs plugins.

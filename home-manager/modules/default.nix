@@ -50,6 +50,8 @@
       extraConfig = ''
         bind r source-file ~/.config/tmux/tmux.conf \; display-message "tmux.conf reloaded."
 
+        set -s set-clipboard on
+
         # colors
         set -g status-style 'bg=#008b8b fg=#f5fffa'
         set -g status-left-length 32
@@ -122,4 +124,9 @@
       '';
     };
   };
+
+  programs.git.ignores = [
+    "**/.claude/worktrees/"
+    "**/.claude/settings.local.json"
+  ];
 }
