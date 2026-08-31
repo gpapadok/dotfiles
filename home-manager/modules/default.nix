@@ -17,6 +17,7 @@
     pkgs.postgresql_17_jit
     pkgs.rainfrog
     pkgs.gh
+    pkgs.beads
 
     # networking
     pkgs.whois
