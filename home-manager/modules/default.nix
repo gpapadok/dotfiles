@@ -68,6 +68,16 @@
         export ZSH_DISABLE_COMPFIX="true"
       '';
 
+      # brew and orbstack normally append these to .zprofile themselves;
+      # since home-manager manages .zprofile, they're folded in here.
+      profileExtra = ''
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+
+        # Added by OrbStack: command-line tools and integration
+        # This won't be added again if you remove it.
+        source ~/.orbstack/shell/init.zsh 2>/dev/null || :
+      '';
+
       plugins = [
         {
           name = "zsh-autosuggestions";
@@ -126,7 +136,12 @@
   };
 
   programs.git.ignores = [
+    # AI
     "**/.claude/worktrees/"
     "**/.claude/settings.local.json"
+    # Emacs
+    "*~"
+    "\#*#"
+    ".#*"
   ];
 }

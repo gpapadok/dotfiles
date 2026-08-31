@@ -21,6 +21,10 @@
 
       core.editor = "nvim";
     };
+
+    ignores = [
+      ".DS_Store"
+    ];
   };
 
   programs.zsh.shellAliases = {
