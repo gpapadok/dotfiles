@@ -24,6 +24,7 @@
     pkgs.rainfrog
     pkgs.gh
     pkgs.beads
+    pkgs.clojure-lsp
 
     # networking
     pkgs.whois
