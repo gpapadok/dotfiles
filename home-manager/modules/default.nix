@@ -24,7 +24,15 @@
     pkgs.rainfrog
     pkgs.gh
     pkgs.beads
-    pkgs.clojure-lsp
+
+    # TUIs
+    pkgs.btop
+    pkgs.lazygit
+    pkgs.lazydocker
+    pkgs.fzf
+    pkgs.yazi
+    pkgs.posting
+    pkgs.ncdu
 
     # networking
     pkgs.whois

@@ -7,6 +7,7 @@
   home.packages = [
     pkgs.clojure
     pkgs.leiningen
+    pkgs.clojure-lsp
     pkgs.emacs
   ];
 
