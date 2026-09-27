@@ -23,6 +23,7 @@
     pkgs.postgresql_17_jit
     pkgs.rainfrog
     pkgs.gh
+    pkgs.delta
 
     # TUIs
     pkgs.btop
