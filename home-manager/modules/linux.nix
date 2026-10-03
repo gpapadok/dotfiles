@@ -5,7 +5,7 @@
   home.homeDirectory = "/home/gpapadok-linux";
 
   home.packages = [
-
+    pkgs.nodejs
   ];
 
   programs.git = {
