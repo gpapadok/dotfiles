@@ -23,7 +23,6 @@
     pkgs.postgresql_17_jit
     pkgs.rainfrog
     pkgs.gh
-    pkgs.beads
 
     # TUIs
     pkgs.btop
@@ -46,6 +45,10 @@
     #   org.grade.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
+
+    "AGENTS.md".source = ../dotfiles/agents/AGENTS.md;
+    ".claude/CLAUDE.md".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/AGENTS.md";
   };
 
   home.sessionVariables = {
@@ -82,16 +85,6 @@
       # for another user first.
       envExtra = ''
         export ZSH_DISABLE_COMPFIX="true"
-      '';
-
-      # brew and orbstack normally append these to .zprofile themselves;
-      # since home-manager manages .zprofile, they're folded in here.
-      profileExtra = ''
-        eval "$(/opt/homebrew/bin/brew shellenv)"
-
-        # Added by OrbStack: command-line tools and integration
-        # This won't be added again if you remove it.
-        source ~/.orbstack/shell/init.zsh 2>/dev/null || :
       '';
 
       plugins = [
@@ -154,10 +147,13 @@
   programs.git.ignores = [
     # AI
     "**/.claude/worktrees/"
+    "**/.claude/projects/"
     "**/.claude/settings.local.json"
-    # Emacs
-    "*~"
-    "\\#*#"
-    ".#*"
+    "CLAUDE.local.md"
+    "graphify-out/"
+
+    "gpapadok-notes"
+    ".k9s/"
+    "lazygit"
   ];
 }

@@ -28,7 +28,7 @@ return {
     },
   },
   commands = {
-    'au BufWrite * lua vim.fn.trim_trailing_whitespace()',
+    'au BufWrite * lua require("gpapadok.util").trim_trailing_whitespace()',
   },
   lsp_overrides = {
     ['*'] = {

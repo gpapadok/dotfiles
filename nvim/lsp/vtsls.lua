@@ -1,12 +1,20 @@
 return {
-  -- Disable ts diagnostics for vue buffers
   handlers = {
     ['textDocument/publishDiagnostics'] = function(err, result, ctx, config)
-      if vim.bo[vim.uri_to_bufnr(result.uri)].filetype == 'vue' then
+      local filetype = vim.bo[vim.uri_to_bufnr(result.uri)].filetype
+
+      -- Disable ts diagnostics for vue buffers
+      if filetype == 'vue' then
         result.diagnostics = vim.tbl_filter(function(d)
           return d.source ~= 'ts-plugin'
         end, result.diagnostics)
       end
+
+      -- Disable checkJs diagnostics for plain JS buffers
+      if filetype == 'javascript' or filetype == 'javascriptreact' then
+        result.diagnostics = {}
+      end
+
       vim.lsp.handlers['textDocument/publishDiagnostics'](err, result, ctx, config)
     end,
   },
