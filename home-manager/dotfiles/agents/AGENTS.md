@@ -17,7 +17,13 @@ Applies to every project. Project-level `CLAUDE.md` / `AGENTS.md` files override
 - **No speculative code.** No fallbacks for inputs that can't be missing, no `try/catch` around code that can't throw, no normalizers for shapes we already control, no wrappers/factories/options-objects for a single caller. Write the simple version first.
 - **No unrequested cleanup.** Don't reformat, rename, or "while I'm here" fix things outside the task. Mention them instead.
 - **Don't touch my uncommitted work.** If the working tree is dirty in files you'd modify, say so before proceeding.
-- For non-trivial work, state the plan in a few lines before editing. For CSS/copy/one-liners, just do it.
+- For non-trivial work, state the plan in a few lines and wait for my approval before editing. For CSS/copy/one-liners, just do it.
+
+## Delegation & style
+
+- Delegate mechanical or bulk work (the same change across many files, boilerplate) to a subagent running a lower-power model. Do small or subtle changes, debugging and design inline.
+- Use the `functional-programming` skill on every code task (purity, effect boundaries, immutability, declarative expression, data-oriented design). When delegating, tell the subagent to invoke it first — a fresh subagent starts cold and won't pick it up on its own.
+- Existing codebase conventions (formatter configs, local idioms) take precedence over the skill.
 
 ## Verification
 
