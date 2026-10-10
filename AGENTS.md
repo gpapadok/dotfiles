@@ -4,11 +4,13 @@ This file provides guidance to coding agents when working with code in this repo
 
 ## Repository purpose
 
-Personal dotfiles for user `gpapadok`. Three independent tool configs share nothing but the repo root:
+Personal dotfiles for user `gpapadok`. Three independent tool configs, plus coding-agent instructions:
 
 - `home-manager/` — Nix home-manager config (one macOS profile, one Linux profile)
 - `nvim/` — Neovim config using `lazy.nvim`
 - `emacs/` — Emacs config using `straight.el` + `use-package`
+- `home-manager/dotfiles/agents/AGENTS.md` — personal global agent instructions. `modules/default.nix` deploys it as `~/AGENTS.md` and points `~/.claude/CLAUDE.md` at that, so an edit takes effect only after `home-manager switch`.
+- `agents/skills/` — agent skills (`functional-programming`), symlinked into `~/.claude/skills/` by hand; no Nix module manages that link.
 
 There is no build/test/lint tooling in this repo — it's declarative config consumed by external tools. "Validating" a change means applying it with the relevant tool (below) and checking it doesn't error.
 
@@ -31,7 +33,7 @@ There is no build/test/lint tooling in this repo — it's declarative config con
 
 ## Neovim (lazy.nvim)
 
-- Entry point: `nvim/init.lua` → `require("gpapadok")` → `nvim/lua/gpapadok/init.lua`, which wires up, in order: helpers (`util.lua`, exposed as global `vim.fn.*` functions), keymaps (`keymaps.lua`), diagnostics/LSP/autocommands (`config.lua`), plugin manager (`lazy.lua`), then `options.lua`.
+- Entry point: `nvim/init.lua` → `require("gpapadok")` → `nvim/lua/gpapadok/init.lua`, which wires up, in order: helpers (`util.lua`, a module table that `init.lua` requires as `helpers`), keymaps (`keymaps.lua`), diagnostics/LSP/autocommands (`config.lua`), plugin manager (`lazy.lua`), then `options.lua`.
 - `lua/gpapadok/config.lua` is the place to change: enabled LSP servers, diagnostic display, and buffer-write autocommands. The LSP server list is unconditional — every server listed in `language_servers` is enabled on all machines.
 - LSP servers are configured individually under `nvim/lsp/<server>.lua` (new-style `vim.lsp.config`/`vim.lsp.enable`, not `lspconfig`-managed setup calls) and enabled via the `language_servers` list in `config.lua`. A server in the list with no file under `nvim/lsp/` falls back to the config `nvim-lspconfig` ships (that's how `pyright`, `intelephense`, `gopls`, and `vue_ls` work). Cross-server overrides go in `lsp_overrides` in `config.lua`.
 - Plugins live under `lua/plugins/*.lua`, one file per plugin, auto-imported by `lazy.lua`.

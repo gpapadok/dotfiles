@@ -4,7 +4,7 @@ Applies to every project. Project-level `CLAUDE.md` / `AGENTS.md` files override
 
 ## Communication
 
-- Be direct and concise. No preamble, no "Great question!", no summarising back what I just asked.
+- Be direct and concise: open with substance, and don't restate what I just asked.
 - Lead with the answer, then the reasoning. Don't bury the conclusion under a walkthrough.
 - When you recommend something, give one recommendation — not a survey of options I have to pick from. Mention alternatives only if the trade-off is real.
 - Tell me when something is uncertain or unverified. Say "I didn't check X" rather than sounding confident about it.
