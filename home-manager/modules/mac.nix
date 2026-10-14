@@ -8,8 +8,11 @@
     pkgs.clojure
     pkgs.leiningen
     pkgs.clojure-lsp
+    pkgs.clj-kondo
     pkgs.emacs
     pkgs.beads
+    pkgs.entr
+    pkgs.ispell
   ];
 
   programs.git = {
