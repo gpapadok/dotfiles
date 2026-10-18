@@ -13,6 +13,7 @@
     pkgs.beads
     pkgs.entr
     pkgs.ispell
+    pkgs.direnv
   ];
 
   programs.git = {
