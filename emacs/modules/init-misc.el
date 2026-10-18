@@ -16,4 +16,9 @@
 
 (use-package terraform-mode)
 
+(use-package mermaid-mode)
+
+(use-package envrc
+  :hook (after-init . envrc-global-mode))
+
 (provide 'init-misc)

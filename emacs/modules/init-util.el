@@ -16,6 +16,9 @@
 
 (use-package magit)
 
+(use-package magit-delta
+  :hook (magit-mode . magit-delta-mode))
+
 (use-package expand-region
   :bind (("M-O" . er/expand-region)))
 
@@ -41,8 +44,7 @@
   :straight (vice
              :host github
              :repo "gpapadok/vice"
-             :local-repo "vice"
-             :branch "master"
+             :tag "v0.2.1"
              :files (:defaults "vice-mode.el"))
   :init (vice-mode))
 
