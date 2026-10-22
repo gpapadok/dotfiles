@@ -3,13 +3,10 @@ vim.g.maplocalleader = "\\"
 
 -- Helpers
 local helpers = require("gpapadok.util")
-for k, v in pairs(helpers) do
-  vim.fn[k] = v
-end
 
 -- Keymaps
 local keys = require("gpapadok.keymaps")
-vim.fn.keymaps_set(keys.keymaps, keys.default_opts)
+helpers.keymaps_set(keys.keymaps, keys.default_opts)
 
 -- General configuration
 local config = require("gpapadok.config")

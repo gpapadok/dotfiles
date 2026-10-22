@@ -9,6 +9,7 @@
     pkgs.leiningen
     pkgs.clojure-lsp
     pkgs.emacs
+    pkgs.beads
   ];
 
   programs.git = {
@@ -25,12 +26,26 @@
 
     ignores = [
       ".DS_Store"
+      # Emacs
+      "*~"
+      "\\#*#"
+      ".#*"
     ];
   };
 
   programs.zsh.shellAliases = {
     spacemacs = "emacs --init-directory=~/.spacemacs.d";
   };
+
+  # brew and orbstack normally append these to .zprofile themselves;
+  # since home-manager manages .zprofile, they're folded in here.
+  programs.zsh.profileExtra = ''
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+
+    # Added by OrbStack: command-line tools and integration
+    # This won't be added again if you remove it.
+    source ~/.orbstack/shell/init.zsh 2>/dev/null || :
+  '';
 
   launchd.agents = {
     emacs = {

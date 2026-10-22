@@ -1,5 +1,7 @@
 return {
   "lewis6991/gitsigns.nvim",
+  -- ponytail: opts below mostly restate library defaults verbatim, and signs/signs_staged
+  -- are duplicate tables; could shrink to just the custom `signs` overrides reused for both
   opts = {
     signs = {
       add = { text = "|" },
@@ -77,7 +79,7 @@ return {
         },
       }
 
-      vim.fn.keymaps_set(keys, { buffer = bufnr })
+      require("gpapadok.util").keymaps_set(keys, { buffer = bufnr })
     end,
   },
   keys = {

@@ -1,7 +1,7 @@
 return {
   "folke/tokyonight.nvim",
-  lazy = false,
-  priority = 1000,
+  -- ponytail: not the active colorscheme (zenburn is), kept installed but disabled
+  enabled = false,
   config = function()
   --   vim.cmd([[colorscheme tokyonight-storm]])
   end

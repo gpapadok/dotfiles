@@ -1,6 +1,7 @@
 -- Utilities
 
 return {
+  -- ponytail: no call sites in the repo, candidate for deletion
   tbl_print = function(t)
     print(vim.inspect(t))
   end,
@@ -11,6 +12,7 @@ return {
     end
   end,
 
+  -- ponytail: no call sites in the repo, candidate for deletion
   array_if = function(condition, map)
     if condition then
       return map
