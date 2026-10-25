@@ -13,6 +13,7 @@
 
   home.packages = [
     pkgs.neovim
+    pkgs.tree-sitter
     pkgs.htop
     pkgs.ripgrep
     pkgs.tmux
