@@ -4,8 +4,9 @@
   home.username = "gpapadok-linux";
   home.homeDirectory = "/home/gpapadok-linux";
 
-  home.packages = [
-    pkgs.nodejs
+  home.packages = with pkgs; [
+    nodejs
+    php
   ];
 
   programs.git = {
