@@ -51,6 +51,8 @@
     source ~/.orbstack/shell/init.zsh 2>/dev/null || :
   '';
 
+  programs.direnv.enable = true;
+
   launchd.agents = {
     emacs = {
       enable = true;
