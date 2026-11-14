@@ -14,6 +14,7 @@
     pkgs.entr
     pkgs.ispell
     pkgs.direnv
+    pkgs.cloudflared
   ];
 
   programs.git = {
