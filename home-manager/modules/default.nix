@@ -138,8 +138,12 @@
       };
 
       initContent = ''
-        if [[ -d /home/$USER/bin ]]; then
-          export PATH=/home/$USER/bin:$PATH
+        if [[ -d ${config.home.homeDirectory}/bin ]]; then
+          export PATH=${config.home.homeDirectory}/bin:$PATH
+        fi
+
+        if [[ -d ${config.home.homeDirectory}/.local/bin ]]; then
+          export PATH="${config.home.homeDirectory}/.local/bin:$PATH"
         fi
       '';
     };
