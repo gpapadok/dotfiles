@@ -11,22 +11,9 @@
     cloudflared
   ];
 
-  programs.git = {
-    enable = true;
-
-    settings = {
-      user = {
-        email = "giorgos.papadokostakis@proton.me";
-        username = "gpapadok";
-      };
-
-      core.editor = "nvim";
-    };
-
-    ignores = [
-      ".DS_Store"
-    ];
-  };
+  programs.git.ignores = [
+    ".DS_Store"
+  ];
 
   # brew and orbstack normally append these to .zprofile themselves;
   # since home-manager manages .zprofile, they're folded in here.
