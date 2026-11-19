@@ -1,5 +1,6 @@
 return {
   "lewis6991/gitsigns.nvim",
+  event = { "BufReadPre", "BufNewFile" },
   -- ponytail: opts below mostly restate library defaults verbatim, and signs/signs_staged
   -- are duplicate tables; could shrink to just the custom `signs` overrides reused for both
   opts = {
@@ -20,7 +21,7 @@ return {
       untracked = { text = "|" },
     },
     signs_staged_enable = true,
-    singcolumn = true,
+    signcolumn = true,
     numhl = false,
     linehl = false,
     word_diff = false,
@@ -28,7 +29,7 @@ return {
       follow_files = true,
     },
     auto_attach = true,
-    attach_untracked = false,
+    attach_to_untracked = false,
     current_line_blame = false,
     current_line_blame_opts = {
       virt_text = true,
@@ -70,7 +71,7 @@ return {
           '[c',
           function()
             if vim.wo.diff then
-              vim.cmd.normal({']c', bang = true})
+              vim.cmd.normal({'[c', bang = true})
             else
               gitsigns.nav_hunk('prev')
             end

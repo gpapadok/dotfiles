@@ -11,11 +11,11 @@ return {
     { "n", "gD", vim.lsp.buf.declaration, { desc = "Go to declaration" } },
     { { "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "See available code actions"} },
     { "n", "<leader>rn", vim.lsp.buf.rename, { desc = "Smart rename" } },
-    -- { "n", "<leader>d", vim.diagnostic.open_float, { desc = "Show line diagnostics" } },
+    { "n", "<leader>df", vim.diagnostic.open_float, { desc = "Show line diagnostics" } },
     { "n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, { desc = "Go to previous diagnostic" } },
     { "n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, { desc = "Go to next diagnostic" } },
     { "n", "K", vim.lsp.buf.hover, { desc = "Show documentation at point" } },
-    { "n", "<leader>rs", ":LspRestart<cr>", { desc = "Restart LSP" } },
+    { "n", "<leader>rs", ":lsp restart<cr>", { desc = "Restart LSP" } },
 
     {
       "v",

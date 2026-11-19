@@ -1,5 +1,6 @@
 return {
   "hkupty/iron.nvim",
+  ft = "python",
 
   config = function(plugins, opts)
     require("iron.core").setup({
@@ -37,9 +38,9 @@ return {
   end,
 
   keys = {
-    { '<leader>rs', '<cmd>IronRepl<cr>', desc = 'Iron Repl', mode = 'n' },
+    { '<leader>ro', '<cmd>IronRepl<cr>', desc = 'Iron Repl', mode = 'n' },
     { '<leader>rr', '<cmd>IronRestart<cr>', desc = 'Iron Restart', mode = 'n' },
-    { '<leader>rF', '<cmd>IronRestart<cr>', desc = 'Iron Focus', mode = 'n' },
-    { '<leader>rh', '<cmd>IronRestart<cr>', desc = 'Iron Hide', mode = 'n' },
+    { '<leader>rF', '<cmd>IronFocus<cr>', desc = 'Iron Focus', mode = 'n' },
+    { '<leader>rh', '<cmd>IronHide<cr>', desc = 'Iron Hide', mode = 'n' },
   },
 }
