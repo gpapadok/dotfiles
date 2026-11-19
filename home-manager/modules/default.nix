@@ -11,54 +11,56 @@
     options = "--delete-older-than 30d";
   };
 
-  home.packages = [
-    pkgs.neovim
-    pkgs.tree-sitter
-    pkgs.htop
-    pkgs.ripgrep
-    pkgs.tmux
-    pkgs.tree
-    pkgs.fd
-    pkgs.tree-sitter
-    pkgs.zsh
-    pkgs.oh-my-zsh
-    pkgs.postgresql_17_jit
-    pkgs.rainfrog
-    pkgs.gh
-    crit.packages.${pkgs.stdenv.hostPlatform.system}.default
-    pkgs.delta
+  home = {
+    packages = with pkgs; [
+      neovim
+      tree-sitter
+      htop
+      ripgrep
+      tmux
+      tree
+      fd
+      tree-sitter
+      zsh
+      oh-my-zsh
+      postgresql_17_jit
+      rainfrog
+      gh
+      crit.packages.${stdenv.hostPlatform.system}.default
+      delta
 
-    # TUIs
-    pkgs.btop
-    pkgs.lazygit
-    pkgs.lazydocker
-    pkgs.fzf
-    pkgs.yazi
-    pkgs.posting
-    pkgs.ncdu
+      # TUIs
+      btop
+      lazygit
+      lazydocker
+      fzf
+      yazi
+      posting
+      ncdu
 
-    # networking
-    pkgs.whois
+      # networking
+      whois
 
-    pkgs.nerd-fonts.roboto-mono
-    pkgs.inter
-    pkgs.jetbrains-mono
-  ];
+      # fonts
+      nerd-fonts.roboto-mono
+      inter
+      jetbrains-mono
+    ];
 
-  home.file = {
-    # Alternatively
-    # ".grade/grade.properties".text = ''
-    #   org.grade.console=verbose
-    #   org.gradle.daemon.idletimeout=3600000
-    # '';
+    file = {
+      "AGENTS.md".source = ../dotfiles/agents/AGENTS.md;
+      ".claude/CLAUDE.md".source =
+        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/AGENTS.md";
+    };
 
-    "AGENTS.md".source = ../dotfiles/agents/AGENTS.md;
-    ".claude/CLAUDE.md".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/AGENTS.md";
-  };
+    sessionVariables = {
+      EDITOR = "nvim";
+    };
 
-  home.sessionVariables = {
-    EDITOR = "nvim";
+    sessionPath = [
+      "${config.home.homeDirectory}/.local/bin"
+      "${config.home.homeDirectory}/bin"
+    ];
   };
 
   programs = {
@@ -69,7 +71,7 @@
 
       shell = "${pkgs.zsh}/bin/zsh";
       terminal = "xterm-256color";
-      keyMode = "vi";
+      keyMode = "emacs";
       shortcut = "o";
 
       extraConfig = ''
@@ -128,43 +130,29 @@
       shellAliases = {
         hms = "home-manager switch";
 
-        dc_ = "docker compose";
-        dcup = "docker compose up";
-        dcdown = "docker compose down";
+        dc = "docker compose";
         dockps = "docker ps --format \"{{.ID}} {{.Names}}\"";
-        dcbuild = "docker compose build";
 
+        aws = "docker run --rm -it -v ~/.aws:/root/.aws amazon/aws-cli";
         stripe = "docker run --rm -it -v ~/.config/stripe:/root/.config/stripe stripe/stripe-cli:latest";
 
         df = "df -h";
         du = "du -hs";
-
-        aws = "docker run --rm -it -v ~/.aws:/root/.aws amazon/aws-cli";
       };
-
-      initContent = ''
-        if [[ -d ${config.home.homeDirectory}/bin ]]; then
-          export PATH=${config.home.homeDirectory}/bin:$PATH
-        fi
-
-        if [[ -d ${config.home.homeDirectory}/.local/bin ]]; then
-          export PATH="${config.home.homeDirectory}/.local/bin:$PATH"
-        fi
-      '';
     };
+
+    git.ignores = [
+      # AI
+      "**/.claude/worktrees/"
+      "**/.claude/projects/"
+      "**/.claude/settings.local.json"
+      "CLAUDE.local.md"
+      "graphify-out/"
+      ".archify/"
+
+      "gpapadok-notes"
+      ".k9s/"
+      "lazygit"
+    ];
   };
-
-  programs.git.ignores = [
-    # AI
-    "**/.claude/worktrees/"
-    "**/.claude/projects/"
-    "**/.claude/settings.local.json"
-    "CLAUDE.local.md"
-    "graphify-out/"
-    ".archify/"
-
-    "gpapadok-notes"
-    ".k9s/"
-    "lazygit"
-  ];
 }
