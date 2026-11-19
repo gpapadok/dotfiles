@@ -32,6 +32,8 @@
       homeConfigurations = {
         "gpapadok" = homeManagerConfiguration "aarch64-darwin" [
           ./modules/mac.nix
+          ./modules/clojure.nix
+          ./modules/emacs.nix
           ./modules/default.nix
         ];
 

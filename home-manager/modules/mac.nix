@@ -4,17 +4,11 @@
   home.username = "gpapadok";
   home.homeDirectory = "/Users/gpapadok";
 
-  home.packages = [
-    pkgs.clojure
-    pkgs.leiningen
-    pkgs.clojure-lsp
-    pkgs.clj-kondo
-    pkgs.emacs
-    pkgs.beads
-    pkgs.entr
-    pkgs.ispell
-    pkgs.direnv
-    pkgs.cloudflared
+  home.packages = with pkgs; [
+    entr
+    ispell
+    direnv
+    cloudflared
   ];
 
   programs.git = {
@@ -31,15 +25,7 @@
 
     ignores = [
       ".DS_Store"
-      # Emacs
-      "*~"
-      "\\#*#"
-      ".#*"
     ];
-  };
-
-  programs.zsh.shellAliases = {
-    spacemacs = "emacs --init-directory=~/.spacemacs.d";
   };
 
   # brew and orbstack normally append these to .zprofile themselves;
@@ -55,44 +41,27 @@
   programs.direnv.enable = true;
 
   launchd.agents = {
-    emacs = {
+    cleanup-downloads = {
       enable = true;
       config = {
         ProgramArguments = [
-          "${pkgs.emacs}/bin/emacs"
-          "--fg-daemon"
-        ];
-        RunAtLoad = true;
-        KeepAlive = true;
-        EnvironmentVariables = {
-          PATH = "${config.home.homeDirectory}/.nix-profile/bin:/usr/bin:/bin:/usr/sbin:/sbin";
-        };
-        StandardOutPath = "${config.home.homeDirectory}/Library/Logs/emacs-daemon.log";
-        StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/emacs-daemon.log";
-      };
-    };
-
-    downloads-cleanup = {
-      enable = true;
-      config = {
-        ProgramArguments = [
-          "${pkgs.writeShellScript "downloads-cleanup" ''
-            find "${config.home.homeDirectory}/Downloads" -mindepth 1 -mtime +30 -delete
-          ''}"
+          "/usr/bin/find" "${config.home.homeDirectory}/Downloads"
+          "-mindepth" "1" "-maxdepth" "1" "-mtime" "+30"
+          "-exec" "/bin/mv" "-n" "{}" "${config.home.homeDirectory}/.Trash/" ";"
         ];
         StartCalendarInterval = [
           { Weekday = 0; Hour = 9; Minute = 15; }
         ];
-        StandardOutPath = "${config.home.homeDirectory}/Library/Logs/downloads-cleanup.log";
-        StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/downloads-cleanup.log";
+        StandardOutPath = "${config.home.homeDirectory}/Library/Logs/cleanup-downloads.log";
+        StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/cleanup-downloads.log";
       };
     };
 
-    brew-update = {
+    brew-maintenance = {
       enable = true;
       config = {
         ProgramArguments = [
-          "${pkgs.writeShellScript "brew-update" ''
+          "${pkgs.writeShellScript "brew-maintenance" ''
             export PATH="/opt/homebrew/bin:$PATH"
             brew update
             brew upgrade
@@ -102,8 +71,8 @@
         StartCalendarInterval = [
           { Weekday = 0; Hour = 9; Minute = 0; }
         ];
-        StandardOutPath = "${config.home.homeDirectory}/Library/Logs/brew-update.log";
-        StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/brew-update.log";
+        StandardOutPath = "${config.home.homeDirectory}/Library/Logs/brew-maintenance.log";
+        StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/brew-maintenance.log";
       };
     };
   };
