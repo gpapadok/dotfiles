@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, crit, ... }:
 
 {
   home.stateVersion = "25.05"; # You should not manually update this value
@@ -13,16 +13,19 @@
 
   home.packages = [
     pkgs.neovim
+    pkgs.tree-sitter
     pkgs.htop
     pkgs.ripgrep
     pkgs.tmux
     pkgs.tree
     pkgs.fd
+    pkgs.tree-sitter
     pkgs.zsh
     pkgs.oh-my-zsh
     pkgs.postgresql_17_jit
     pkgs.rainfrog
     pkgs.gh
+    crit.packages.${pkgs.stdenv.hostPlatform.system}.default
     pkgs.delta
 
     # TUIs
@@ -38,6 +41,8 @@
     pkgs.whois
 
     pkgs.nerd-fonts.roboto-mono
+    pkgs.inter
+    pkgs.jetbrains-mono
   ];
 
   home.file = {
@@ -64,7 +69,7 @@
 
       shell = "${pkgs.zsh}/bin/zsh";
       terminal = "xterm-256color";
-      keyMode = "emacs";
+      keyMode = "vi";
       shortcut = "o";
 
       extraConfig = ''
@@ -156,6 +161,7 @@
     "**/.claude/settings.local.json"
     "CLAUDE.local.md"
     "graphify-out/"
+    ".archify/"
 
     "gpapadok-notes"
     ".k9s/"

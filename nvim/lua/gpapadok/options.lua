@@ -6,10 +6,4 @@ return {
   tabstop = 4,
   shiftwidth = 2,
   relativenumber = true,
-
-  -- ignorecase = true,
-  -- smartcase = true,
-  -- hlsearch = true,
-  -- mouse = 'a',
 }
-
