@@ -28,22 +28,22 @@
             extraSpecialArgs = { inherit crit; };
           };
     in
-    {
-      homeConfigurations = {
-        "gpapadok" = homeManagerConfiguration "aarch64-darwin" [
-          ./modules/mac.nix
-          ./modules/clojure.nix
-          ./modules/emacs.nix
-          ./modules/git.nix
-          ./modules/default.nix
-        ];
+      {
+        homeConfigurations = {
+          "gpapadok" = homeManagerConfiguration "aarch64-darwin" [
+            ./modules/mac.nix
+            ./modules/clojure.nix
+            ./modules/emacs.nix
+            ./modules/git.nix
+            ./modules/default.nix
+          ];
 
-        "gpapadok-linux" = homeManagerConfiguration "x86_64-linux" [
-          ./modules/linux.nix
-          ./modules/clean-downloads.nix
-          ./modules/git.nix
-          ./modules/default.nix
-        ];
+          "gpapadok-linux" = homeManagerConfiguration "x86_64-linux" [
+            ./modules/linux.nix
+            ./modules/clean-downloads.nix
+            ./modules/git.nix
+            ./modules/default.nix
+          ];
+        };
       };
-    };
 }
