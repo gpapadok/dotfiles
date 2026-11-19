@@ -32,6 +32,8 @@
     source ~/.orbstack/shell/init.zsh 2>/dev/null || :
   '';
 
+  programs.zsh.shellAliases.nds = "sudo darwin-rebuild switch --flake /etc/nix-darwin#gpapadok";
+
   programs.direnv.enable = true;
 
   launchd.agents.brew-maintenance = {
