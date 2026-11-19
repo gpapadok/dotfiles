@@ -1,9 +1,6 @@
 { config, pkgs, ...}:
 
 {
-  home.username = "gpapadok";
-  home.homeDirectory = "/Users/gpapadok";
-
   home.packages = with pkgs; [
     entr
     ispell

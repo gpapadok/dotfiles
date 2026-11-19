@@ -7,6 +7,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-darwin = {
+      url = "github:nix-darwin/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     crit = {
       url = "github:tomasz-tomczyk/crit";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -14,7 +18,7 @@
   };
 
   outputs =
-    { nixpkgs, home-manager, crit, ... }:
+    { nixpkgs, nix-darwin, home-manager, crit, ... }:
     let
       homeManagerConfiguration =
         system:
@@ -29,15 +33,29 @@
           };
     in
       {
-        homeConfigurations = {
-          "gpapadok" = homeManagerConfiguration "aarch64-darwin" [
-            ./modules/mac.nix
-            ./modules/clojure.nix
-            ./modules/emacs.nix
-            ./modules/git.nix
-            ./modules/default.nix
+        darwinConfigurations."gpapadok" = nix-darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          modules = [
+            ./modules/darwin.nix
+            home-manager.darwinModules.home-manager
+            {
+              users.users.gpapadok.home = "/Users/gpapadok";
+              home-manager = {
+                useGlobalPkgs = true;
+                extraSpecialArgs = { inherit crit; };
+                users.gpapadok.imports = [
+                  ./modules/mac.nix
+                  ./modules/clojure.nix
+                  ./modules/emacs.nix
+                  ./modules/git.nix
+                  ./modules/default.nix
+                ];
+              };
+            }
           ];
+        };
 
+        homeConfigurations = {
           "gpapadok-linux" = homeManagerConfiguration "x86_64-linux" [
             ./modules/linux.nix
             ./modules/clean-downloads.nix
