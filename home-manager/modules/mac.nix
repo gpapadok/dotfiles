@@ -9,6 +9,16 @@
     ispell
     direnv
     cloudflared
+
+    (pkgs.writeShellScriptBin "clean-downloads" ''
+      dir="$HOME/Downloads"
+      find_old() { /usr/bin/find "$dir" -mindepth 1 -maxdepth 1 -mtime +30 -print "$@"; }
+      if [ "$1" = "--dry" ]; then
+        find_old
+      else
+        find_old -exec /bin/mv -n {} "$HOME/.Trash/" \;
+      fi
+    '')
   ];
 
   programs.git.ignores = [
@@ -27,40 +37,22 @@
 
   programs.direnv.enable = true;
 
-  launchd.agents = {
-    cleanup-downloads = {
-      enable = true;
-      config = {
-        ProgramArguments = [
-          "/usr/bin/find" "${config.home.homeDirectory}/Downloads"
-          "-mindepth" "1" "-maxdepth" "1" "-mtime" "+30"
-          "-exec" "/bin/mv" "-n" "{}" "${config.home.homeDirectory}/.Trash/" ";"
-        ];
-        StartCalendarInterval = [
-          { Weekday = 0; Hour = 9; Minute = 15; }
-        ];
-        StandardOutPath = "${config.home.homeDirectory}/Library/Logs/cleanup-downloads.log";
-        StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/cleanup-downloads.log";
-      };
-    };
-
-    brew-maintenance = {
-      enable = true;
-      config = {
-        ProgramArguments = [
-          "${pkgs.writeShellScript "brew-maintenance" ''
-            export PATH="/opt/homebrew/bin:$PATH"
-            brew update
-            brew upgrade
-            brew cleanup
-          ''}"
-        ];
-        StartCalendarInterval = [
-          { Weekday = 0; Hour = 9; Minute = 0; }
-        ];
-        StandardOutPath = "${config.home.homeDirectory}/Library/Logs/brew-maintenance.log";
-        StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/brew-maintenance.log";
-      };
+  launchd.agents.brew-maintenance = {
+    enable = true;
+    config = {
+      ProgramArguments = [
+        "${pkgs.writeShellScript "brew-maintenance" ''
+          export PATH="/opt/homebrew/bin:$PATH"
+          brew update
+          brew upgrade
+          brew cleanup
+        ''}"
+      ];
+      StartCalendarInterval = [
+        { Weekday = 0; Hour = 9; Minute = 0; }
+      ];
+      StandardOutPath = "${config.home.homeDirectory}/Library/Logs/brew-maintenance.log";
+      StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/brew-maintenance.log";
     };
   };
 }
