@@ -47,12 +47,6 @@
       jetbrains-mono
     ];
 
-    file = {
-      "AGENTS.md".source = ../dotfiles/agents/AGENTS.md;
-      ".claude/CLAUDE.md".source =
-        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/AGENTS.md";
-    };
-
     sessionVariables = {
       EDITOR = "nvim";
     };

@@ -1,9 +1,13 @@
-{ config, pkgs, ...}:
+{ config, pkgs, dotfiles, symlink, ...}:
 
 {
   home.packages = with pkgs; [
     emacs
   ];
+
+  home.file = {
+    ".emacs.d/gpapadok".source = symlink "${dotfiles}/emacs";
+  };
 
   programs.git.ignores = [
     "*~"

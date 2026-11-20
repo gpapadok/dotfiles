@@ -48,6 +48,7 @@
                   ./modules/clojure.nix
                   ./modules/emacs.nix
                   ./modules/git.nix
+                  ./modules/symlink.nix
                   ./modules/default.nix
                 ];
               };
@@ -60,6 +61,7 @@
             ./modules/linux.nix
             ./modules/clean-downloads.nix
             ./modules/git.nix
+            ./modules/symlink.nix
             ./modules/default.nix
           ];
         };
