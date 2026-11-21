@@ -13,6 +13,7 @@
     ".claude/skills/functional-programming".source = symlink "${dotfiles}/agents/skills/functional-programming";
     ".claude/skills/fixing-review-findings".source = symlink "${dotfiles}/agents/skills/fixing-review-findings";
     ".claude/skills/dev-workflow".source = symlink "${dotfiles}/agents/skills/dev-workflow";
+    ".claude/skills/code-surgeon".source = symlink "${dotfiles}/agents/skills/code-surgeon";
     # editors
     ".config/nvim".source = symlink "${dotfiles}/nvim";
   };
