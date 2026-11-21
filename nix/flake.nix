@@ -65,5 +65,11 @@
             ./modules/default.nix
           ];
         };
+
+        nixosModules.parnitha = {
+          imports = [
+            ./hosts/parnitha/configuration.nix
+          ];
+        };
       };
 }
