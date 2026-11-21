@@ -31,6 +31,7 @@
       yazi
       posting
       ncdu
+      leaf-markdown-viewer
 
       # networking
       whois
