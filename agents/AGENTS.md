@@ -22,7 +22,6 @@ Applies to every project. Project-level `CLAUDE.md` / `AGENTS.md` files override
 ## Delegation & style
 
 - Delegate mechanical or bulk work (the same change across many files, boilerplate) to a subagent running a lower-power model. Do small or subtle changes, debugging and design inline.
-- Use the `functional-programming` skill on every code task (purity, effect boundaries, immutability, declarative expression, data-oriented design). When delegating, tell the subagent to invoke it first — a fresh subagent starts cold and won't pick it up on its own.
 - Existing codebase conventions (formatter configs, local idioms) take precedence over the skill.
 
 ## Verification
