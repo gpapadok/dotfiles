@@ -1,11 +1,10 @@
 # Personal global instructions
 
-Applies to every project. Project-level `CLAUDE.md` / `AGENTS.md` files override anything here.
+Project-level `CLAUDE.md` / `AGENTS.md` files override anything here.
 
 ## Communication
 
-- Be direct and concise: open with substance, and don't restate what I just asked.
-- Lead with the answer, then the reasoning. Don't bury the conclusion under a walkthrough.
+- Be direct and concise: lead with the answer, then the reasoning. Don't restate what I asked.
 - When you recommend something, give one recommendation — not a survey of options I have to pick from. Mention alternatives only if the trade-off is real.
 - Tell me when something is uncertain or unverified. Say "I didn't check X" rather than sounding confident about it.
 - I sometimes write in Greek. Reply in the language I used.
@@ -22,7 +21,7 @@ Applies to every project. Project-level `CLAUDE.md` / `AGENTS.md` files override
 ## Delegation & style
 
 - Delegate mechanical or bulk work (the same change across many files, boilerplate) to a subagent running a lower-power model. Do small or subtle changes, debugging and design inline.
-- Existing codebase conventions (formatter configs, local idioms) take precedence over the skill.
+- Existing codebase conventions (formatter configs, local idioms) take precedence over any skill.
 
 ## Verification
 
