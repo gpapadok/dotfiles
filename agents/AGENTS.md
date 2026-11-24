@@ -21,12 +21,14 @@ Project-level `CLAUDE.md` / `AGENTS.md` files override anything here.
 ## Delegation & style
 
 - Delegate mechanical or bulk work (the same change across many files, boilerplate) to a subagent running a lower-power model. Do small or subtle changes, debugging and design inline.
+- Subagent prompt = one problem's scope, goal, what not to touch, and what to return. Run agents in parallel only for independent problems that don't share files.
 - Existing codebase conventions (formatter configs, local idioms) take precedence over any skill.
 
 ## Verification
 
 - "It compiles" is not "it works". Run the relevant tests, linter, or type-check for the paths you touched.
 - Report results honestly: if tests fail, paste the failure; if you skipped a check, name it and say why. Never describe unverified work as done.
+- Evidence per claim: "tests pass" → this run's output, 0 failures; "fixed" → the original symptom re-run; a subagent's "done" → read its diff yourself.
 - Prefer the repo's own tooling wrapper (`make`, `just`, `mise run`, package scripts) over hand-rolled equivalents.
 
 ## Git & shipping

@@ -8,7 +8,7 @@ Personal dotfiles for user `gpapadok`. Three independent tool configs, plus codi
 - `nvim/` — Neovim config using `lazy.nvim`
 - `emacs/` — Emacs config using `straight.el` + `use-package`
 - `agents/AGENTS.md` — personal global agent instructions, linked to `~/AGENTS.md` and `~/.claude/CLAUDE.md`.
-- `agents/skills/` — agent skills, each linked into `~/.claude/skills/`.
+- `agents/gp/` — the `gp` Claude Code plugin (skills in `agents/gp/skills/`, invoked as `gp:<skill>`), linked to `~/.claude/skills/gp`, where Claude Code auto-loads it as `gp@skills-dir`.
 
 `nix/modules/symlink.nix` creates those links (plus `~/.config/nvim`) as out-of-store symlinks: edits take effect immediately; only adding/removing a link needs a switch.
 

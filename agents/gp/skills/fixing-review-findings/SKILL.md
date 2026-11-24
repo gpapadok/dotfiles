@@ -33,6 +33,10 @@ Work out where the findings come from:
   code. Read the whole thread, because later replies may narrow or withdraw the original point.
   Keep each thread's first `databaseId`, since you need it to reply.
 
+If any finding is unclear, ask about it before working on any of them: findings are often related,
+and fixing the clear ones first can go the wrong way. When a finding asks to build something out
+"properly", grep for real usage first; if nothing uses it, suggest removing it instead.
+
 Turn each finding into one entry: where (`file:line`), what the reviewer said, and its source (the
 thread id for PR threads). Merge duplicates. Order the list by severity if the review gives one;
 otherwise follow the review's own order. Tell the user how many findings there are before you start.

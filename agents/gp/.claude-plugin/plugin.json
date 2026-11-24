@@ -1,0 +1,8 @@
+{
+  "name": "gp",
+  "description": "Personal development workflow skills: debugging, testing, planning, execution, review and branch closing.",
+  "version": "1.0.0",
+  "author": {
+    "name": "gpapadok"
+  }
+}
