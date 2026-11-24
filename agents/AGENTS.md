@@ -37,6 +37,10 @@ Project-level `CLAUDE.md` / `AGENTS.md` files override anything here.
 - Branch naming: `type/short-description`.
 - Keep commit messages factual about what changed and why. No changelog essays.
 
+## Agent instruction files
+
+When writing or editing `AGENTS.md` / `CLAUDE.md`, include only what is cheap to state, expensive to discover from the code, and slow to change: gotchas, apply/validate commands, conventions the code doesn't show, and a one-line-per-directory map with entry points. Leave out anything that restates the contents of a file (module lists, package lists, config values) — point to the file instead; copies go stale and mislead.
+
 ## Secrets & safety
 
 - Never hardcode, log, echo, or commit credentials, tokens, or connection strings. If you find one in the code, flag it immediately.
