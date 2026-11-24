@@ -1,35 +1,33 @@
 # AGENTS.md
 
-This file provides guidance to coding agents when working with code in this repository.
-
 ## Repository purpose
 
 Personal dotfiles for user `gpapadok`. Three independent tool configs, plus coding-agent instructions:
 
-- `home-manager/` — Nix home-manager config (one macOS profile, one Linux profile)
+- `nix/` — Nix flake: nix-darwin + home-manager (macOS), standalone home-manager (Linux), NixOS host module
 - `nvim/` — Neovim config using `lazy.nvim`
 - `emacs/` — Emacs config using `straight.el` + `use-package`
-- `home-manager/dotfiles/agents/AGENTS.md` — personal global agent instructions. `modules/default.nix` deploys it as `~/AGENTS.md` and points `~/.claude/CLAUDE.md` at that, so an edit takes effect only after `home-manager switch`.
-- `agents/skills/` — agent skills (`functional-programming`), symlinked into `~/.claude/skills/` by hand; no Nix module manages that link.
+- `agents/AGENTS.md` — personal global agent instructions, linked to `~/AGENTS.md` and `~/.claude/CLAUDE.md`.
+- `agents/skills/` — agent skills, each linked into `~/.claude/skills/`.
+
+`nix/modules/symlink.nix` creates those links (plus `~/.config/nvim`) as out-of-store symlinks: edits take effect immediately; only adding/removing a link needs a switch.
 
 There is no build/test/lint tooling in this repo — it's declarative config consumed by external tools. "Validating" a change means applying it with the relevant tool (below) and checking it doesn't error.
 
-## home-manager (Nix)
+## Nix (`nix/`)
 
-- Entry point: `home-manager/flake.nix`. Apply with `home-manager switch --flake .#<profile>` from `home-manager/`. (The configured shell has an `hms` alias, but it's bare `home-manager switch` — no `--flake`.)
-- Module split:
-  - `modules/default.nix` — base packages/config shared by every profile (always applied): core CLI packages, TUIs, tmux, zsh/oh-my-zsh.
-  - `modules/linux.nix` — Linux profile: sets `home.username`/`home.homeDirectory` for `gpapadok-linux` and personal git identity.
-  - `modules/mac.nix` — personal macOS profile: sets `home.username`/`home.homeDirectory` for `gpapadok`, personal git identity, mac-only packages (clojure, leiningen, beads), launchd agents, and the brew/OrbStack `.zprofile` lines (`programs.zsh.profileExtra`).
-  - `modules/clean-downloads.nix` — systemd user service + timer that deletes `~/Downloads` entries older than 30 days, weekly. Linux-only (systemd), applied alongside `linux.nix`, not `mac.nix`.
-- Two `homeConfigurations` outputs exist in `flake.nix`:
-  - `"gpapadok"` (`aarch64-darwin`) — `mac.nix` + `default.nix`.
-  - `"gpapadok-linux"` (`x86_64-linux`) — `linux.nix` + `clean-downloads.nix` + `default.nix`.
-  Adding a new machine profile means adding a new `homeConfigurations.<name>` entry with its own module list, not editing an existing one.
-- Flakes only see git-tracked files: a new module must be `git add`ed before `home-manager switch` can find it, even for an uncommitted local change.
-- `linux.nix` and `mac.nix` both carry a near-identical personal `programs.git.settings` block (same email/username, `core.editor = "nvim"`) — when changing personal git config, update both.
-- tmux config lives inline in `programs.tmux` in `default.nix` (`terminal`, `keyMode`, `shortcut`, `extraConfig`) — edit it there; there is no separate tmux.conf.
-- Git config (identity, aliases) lives inside the Nix modules (`programs.git.settings`), not in a standalone `.gitconfig`.
+- Entry point: `nix/flake.nix`. Outputs:
+  - `darwinConfigurations."gpapadok"` (`aarch64-darwin`) — `darwin.nix` (system: nix daemon, GC, optimise) + home-manager as a nix-darwin module importing `mac.nix`, `clojure.nix`, `emacs.nix`, `git.nix`, `symlink.nix`, `default.nix`. Apply with the `nds` alias (`sudo darwin-rebuild switch --flake /etc/nix-darwin#gpapadok`).
+  - `homeConfigurations."gpapadok-linux"` (`x86_64-linux`) — `linux.nix`, `clean-downloads.nix`, `git.nix`, `symlink.nix`, `default.nix`. Apply with `home-manager switch --flake .#gpapadok-linux` from `nix/` (the `hms` alias is bare `home-manager switch`, no `--flake`).
+  - `nixosModules.parnitha` — NixOS host config in `hosts/parnitha/`.
+- Modules:
+  - `default.nix` — shared by every profile: core CLI packages, TUIs, tmux (inline in `programs.tmux`; no separate tmux.conf), zsh/oh-my-zsh.
+  - `mac.nix` — mac-only packages, `clean-downloads` script, launchd agents, brew/OrbStack `.zprofile` lines (`programs.zsh.profileExtra`), `nds` alias.
+  - `linux.nix` — Linux profile identity (`home.username`/`home.homeDirectory`).
+  - `clean-downloads.nix` — Linux-only systemd user service + timer deleting old `~/Downloads` entries.
+  - `git.nix` — all git config (identity, editor, aliases); there is no standalone `.gitconfig`.
+- Adding a machine means a new flake output with its own module list, not editing an existing one.
+- Flakes only see git-tracked files: a new module must be `git add`ed before a switch can find it, even for an uncommitted local change.
 
 ## Neovim (lazy.nvim)
 
@@ -45,4 +43,3 @@ There is no build/test/lint tooling in this repo — it's declarative config con
 - Entry point: `emacs/init.el` — bootstraps `straight.el` (not the built-in `package.el`) and sets `straight-use-package-by-default t`, so every `use-package` form pulls its package from straight unless told otherwise. There is no separate lockfile in the repo.
 - Feature modules live in `emacs/modules/*.el` and are loaded by the explicit `init-modules` list in `init.el` — load order is that list, **not** directory order or auto-discovery. Adding a module means: create `emacs/modules/init-<x>.el` ending in `(provide 'init-<x>)`, then add the `init-<x>` symbol to `init-modules`. Modules are grouped by concern (`init-config`, `init-lsp`, `init-python`, `init-clojure`, `init-common-lisp`, `init-theme`, etc.).
 - Deployment gotcha: `init.el` adds `gpapadok/modules` (under the Emacs user dir) to `load-path`, while the repo stores modules at `emacs/modules/`. So the runtime layout differs from the repo layout — deployment is not a flat copy of `emacs/`; the modules land at `<emacs-user-dir>/gpapadok/modules/`.
-- "Validating" a change means loading it in Emacs (e.g. restart or re-eval the module) and checking it doesn't error — same no-tooling convention as the rest of the repo.
