@@ -11,8 +11,13 @@
       url = "github:nix-darwin/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # TODO(SECURITY): bump crit as soon as a release includes upstream fix 8eb98c7
+    # ("sandbox preview content so it can't act as the daemon origin", 2026-11-25).
+    # v0.24.0 lets scripts in previewed HTML call the local API, trust repo hooks
+    # and run them on Finish. Until then: never `crit preview` untrusted HTML.
+    # Pinned to the v0.24.0 commit (security-reviewed 2026-11-27); review the diff before bumping.
     crit = {
-      url = "github:tomasz-tomczyk/crit";
+      url = "github:tomasz-tomczyk/crit?rev=f28f95bea6aa3a37e1a05ca0293a35a474ce93a3";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
